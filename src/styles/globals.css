@@ -1,27 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer utilities {
+  .max-container {
+    @apply max-w-[76rem] w-[85%] mx-auto;
+  }
+
+  .default-button {
+    @apply bg-default-100 font-bold py-2 px-4 w-fit rounded-xl shadow-md transition-transform active:translate-y-px;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: "Lora", serif;
+  background-color: transparent;
+  border: none;
+
+  &:not(:disabled):not(.no-animation):active {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    filter: grayscale(0.5);
+    cursor: not-allowed;
+  }
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba($color: #bbb, $alpha: 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba($color: #5f5f5f, $alpha: 0.8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba($color: #545151, $alpha: 0.8);
 }
