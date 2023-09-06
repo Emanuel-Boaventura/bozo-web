@@ -14,6 +14,7 @@ interface PlayersProps {
 export interface IPlayer {
   name: string;
   color: string;
+  bgColor: string;
   as: null | 0 | 1 | 2 | 3 | 4 | 5;
   duque: null | 0 | 2 | 4 | 6 | 8 | 10;
   terno: null | 0 | 3 | 6 | 9 | 12 | 15;
@@ -37,7 +38,8 @@ export function PlayersProvider({ children }: PlayersProps) {
   const [players, setPlayers] = useState<IPlayer[]>([
     {
       name: "Marcos",
-      color: "rgb(255, 0, 0)",
+      color: "#ff0000",
+      bgColor: "rgb(255, 0, 0, 0.5)",
       as: 0,
       duque: 0,
       terno: 0,
@@ -52,6 +54,7 @@ export function PlayersProvider({ children }: PlayersProps) {
     {
       name: "Faria",
       color: "#0000ff",
+      bgColor: "rgb(0, 0, 255, 0.5)",
       as: null,
       duque: null,
       terno: null,
@@ -65,8 +68,9 @@ export function PlayersProvider({ children }: PlayersProps) {
     },
     {
       name: "Emanuel",
-      color: "#00ff00",
       as: null,
+      color: "#00ff00",
+      bgColor: "rgb(0, 255, 0,0.5)",
       duque: null,
       terno: null,
       quadra: null,
@@ -80,6 +84,7 @@ export function PlayersProvider({ children }: PlayersProps) {
     {
       name: "João Lucas",
       color: "#ffa500",
+      bgColor: "rgb(255, 165, 0,0.5)",
       as: null,
       duque: null,
       terno: null,

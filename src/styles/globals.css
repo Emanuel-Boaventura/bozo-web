@@ -30,7 +30,7 @@
   }
 
   .square {
-    @apply flex flex-col items-center p-2 gap-4 border border-black;
+    @apply flex flex-col items-center justify-between p-2 gap-4 border border-black h-[86px];
   }
 
   .square-title {

@@ -57,7 +57,12 @@ export default function Home() {
                       {...providedTwo.dragHandleProps}
                     >
                       <p className="mt-2 mb-1">{player.name}</p>
-                      <div className={`${player.color} w-full h-2`} />
+                      <div
+                        className="w-full h-2"
+                        style={{
+                          backgroundColor: player.color,
+                        }}
+                      />
                     </div>
                   )}
                 </Draggable>

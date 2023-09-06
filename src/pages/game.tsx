@@ -36,7 +36,7 @@ export default function Game() {
       <header
         className=" w-full p-2"
         style={{
-          backgroundColor: `${players[actualPlayer].color.slice(0, -1)}, 0.4)`,
+          backgroundColor: players[actualPlayer].bgColor,
         }}
       >
         <p className="text-2xl font-bold text-center">Bozó WEB!</p>
@@ -45,7 +45,7 @@ export default function Game() {
 
       <div
         style={{
-          backgroundColor: `${players[actualPlayer].color.slice(0, -1)}, 0.4)`,
+          backgroundColor: players[actualPlayer].bgColor,
         }}
       >
         <p className="text-8xl text-center">
