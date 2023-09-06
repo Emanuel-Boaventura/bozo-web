@@ -62,7 +62,7 @@ export default function Home() {
                 >
                   {(providedTwo) => (
                     <div
-                      className="relative text-center border border-black mt-4"
+                      className="relative bg-white text-center border border-black mt-4"
                       ref={providedTwo.innerRef}
                       {...providedTwo.draggableProps}
                       {...providedTwo.dragHandleProps}

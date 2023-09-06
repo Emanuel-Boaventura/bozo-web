@@ -48,6 +48,7 @@ export default function Game() {
       (player.sena ?? 0) +
       (player.full ?? 0) +
       (player.seguida ?? 0) +
+      (player.quadrada ?? 0) +
       (player.general ?? 0)
     );
   }
@@ -97,36 +98,17 @@ export default function Game() {
         </p>
       </div>
       <main className="flex flex-col justify-between p-4 gap-6">
-        <div className="grid grid-cols-3 leading-none">
+        <div className="grid grid-cols-3 leading-none bg-black gap-[1px] p-[1px]">
           {renderButton({
             name: "Ás",
             value: "as",
             playerPoint: players[actualPlayer].as,
           })}
-          {renderButton({
-            name: "Duque",
-            value: "duque",
-            playerPoint: players[actualPlayer].duque,
-          })}
-          {renderButton({
-            name: "Terno",
-            value: "terno",
-            playerPoint: players[actualPlayer].terno,
-          })}
+
           {renderButton({
             name: "Quadra",
             value: "quadra",
             playerPoint: players[actualPlayer].quadra,
-          })}
-          {renderButton({
-            name: "Quina",
-            value: "quina",
-            playerPoint: players[actualPlayer].quina,
-          })}
-          {renderButton({
-            name: "Sena",
-            value: "sena",
-            playerPoint: players[actualPlayer].sena,
           })}
           {renderButton({
             name: "Full",
@@ -134,9 +116,29 @@ export default function Game() {
             playerPoint: players[actualPlayer].full,
           })}
           {renderButton({
+            name: "Duque",
+            value: "duque",
+            playerPoint: players[actualPlayer].duque,
+          })}
+          {renderButton({
+            name: "Quina",
+            value: "quina",
+            playerPoint: players[actualPlayer].quina,
+          })}
+          {renderButton({
             name: "Seguida",
             value: "seguida",
             playerPoint: players[actualPlayer].seguida,
+          })}
+          {renderButton({
+            name: "Terno",
+            value: "terno",
+            playerPoint: players[actualPlayer].terno,
+          })}
+          {renderButton({
+            name: "Sena",
+            value: "sena",
+            playerPoint: players[actualPlayer].sena,
           })}
           {renderButton({
             name: "Quadrada",
