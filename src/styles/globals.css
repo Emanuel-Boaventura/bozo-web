@@ -28,6 +28,17 @@
   .default-button {
     @apply bg-default-100 font-bold py-2 px-4 w-fit rounded-xl shadow-md transition-transform active:translate-y-px;
   }
+
+  .square {
+    @apply flex flex-col items-center p-2 gap-4 border border-black;
+  }
+
+  .square-title {
+    /* @apply; */
+  }
+  .square-point {
+    @apply text-3xl;
+  }
 }
 
 ul {
@@ -46,9 +57,8 @@ a:visited {
 
 button {
   cursor: pointer;
-  font-family: "Lora", serif;
+  font-family: "Roboto", sans-serif;
   background-color: transparent;
-  border: none;
 
   &:not(:disabled):not(.no-animation):active {
     transform: translateY(1px);

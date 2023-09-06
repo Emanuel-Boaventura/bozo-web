@@ -1,31 +1,9 @@
-import { useState } from "react";
-import { Draggable, DragDropContext, Droppable } from "react-beautiful-dnd";
-
-interface IPlayers {
-  name: string;
-  color: string;
-}
+import { usePlayersContext } from "@/context/playersContext";
+import Link from "next/link";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 export default function Home() {
-  const [players, setPlayers] = useState<IPlayers[]>([
-    {
-      name: "Marcos",
-      color: "bg-[#ff0000]",
-    },
-    {
-      name: "Faria",
-      color: "bg-[#0000ff]",
-    },
-    {
-      name: "Emanuel",
-      color: "bg-[#00ff00]",
-    },
-    {
-      name: "João Lucas",
-      color: "bg-[#ffa500]",
-    },
-  ]);
-  console.log("players:", players);
+  const { players, setPlayers } = usePlayersContext();
 
   const handleDragEnd = (result: any) => {
     const { destination, source } = result;
@@ -89,6 +67,13 @@ export default function Home() {
           )}
         </Droppable>
       </DragDropContext>
+
+      <Link
+        href={"/game"}
+        className="font-bold w-full p-4 text-center mt-10 border border-black"
+      >
+        Iniciar partida
+      </Link>
     </main>
   );
 }
