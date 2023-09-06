@@ -1,9 +1,30 @@
+import SelectValue from "@/components/SelectValue";
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
 import { useState } from "react";
 
+export type TPoint =
+  | ""
+  | "as"
+  | "duque"
+  | "terno"
+  | "quadra"
+  | "quina"
+  | "sena"
+  | "full"
+  | "seguida"
+  | "quadrada"
+  | "general";
+
+interface IRenderButton {
+  name: string;
+  value: string;
+  playerPoint: null | number;
+}
 export default function Game() {
   const { players } = usePlayersContext();
   const [actualPlayer, setActualPlayer] = useState<number>(0);
+  const [open, setOpen] = useState<boolean>(false);
+  const [point, setPoint] = useState<TPoint>("");
 
   function nextPlayer() {
     setActualPlayer((prevState) =>
@@ -31,8 +52,31 @@ export default function Game() {
     );
   }
 
+  function handleSquareClick(e: any) {
+    setPoint(e.currentTarget.value);
+    setOpen(true);
+  }
+
+  const renderButton = ({ name, value, playerPoint }: IRenderButton) => (
+    <button
+      type="button"
+      className={`square ${value === "general" ? "col-span-full" : ""}`}
+      value={value}
+      onClick={handleSquareClick}
+    >
+      <p className="square-point">{playerPoint}</p>
+      <p className="square-title">{name}</p>
+    </button>
+  );
+
   return (
     <>
+      <SelectValue
+        open={open}
+        setOpen={setOpen}
+        actualPlayer={actualPlayer}
+        point={point}
+      />
       <header
         className=" w-full p-2"
         style={{
@@ -48,52 +92,62 @@ export default function Game() {
           backgroundColor: players[actualPlayer].bgColor,
         }}
       >
-        <p className="text-8xl text-center">
+        <p className="text-8xl text-center py-5">
           {playerSum(players[actualPlayer])}
         </p>
       </div>
       <main className="flex flex-col justify-between p-4 gap-6">
         <div className="grid grid-cols-3 leading-none">
-          <button type="button" className="square">
-            <p className="square-point">{players[actualPlayer].as}</p>
-            <p className="square-title">Ás</p>
-          </button>
-          <button type="button" className="square">
-            <p className="square-point">{players[actualPlayer].duque}</p>
-            <p className="square-title">Duque</p>
-          </button>
-          <button type="button" className="square">
-            <p className="square-point">{players[actualPlayer].terno}</p>
-            <p className="square-title">Terno</p>
-          </button>
-          <button type="button" className="square">
-            <p className="square-point">{players[actualPlayer].quadra}</p>
-            <p className="square-title">Quadra</p>
-          </button>
-          <button type="button" className="square">
-            <p className="square-point">{players[actualPlayer].quina}</p>
-            <p className="square-title">Quina</p>
-          </button>
-          <button type="button" className="square">
-            <p className="square-point">{players[actualPlayer].sena}</p>
-            <p className="square-title">Sena</p>
-          </button>
-          <button type="button" className="square">
-            <p className="square-point">{players[actualPlayer].full}</p>
-            <p className="square-title">Full</p>
-          </button>
-          <button type="button" className="square">
-            <p className="square-point">{players[actualPlayer].seguida}</p>
-            <p className="square-title">Seguida</p>
-          </button>
-          <button type="button" className="square">
-            <p className="square-point">{players[actualPlayer].quadrada}</p>
-            <p className="square-title">Quadrada</p>
-          </button>
-          <button type="button" className="square col-span-full">
-            <p className="square-point">{players[actualPlayer].general}</p>
-            <p className="square-title">General</p>
-          </button>
+          {renderButton({
+            name: "Ás",
+            value: "as",
+            playerPoint: players[actualPlayer].as,
+          })}
+          {renderButton({
+            name: "Duque",
+            value: "duque",
+            playerPoint: players[actualPlayer].duque,
+          })}
+          {renderButton({
+            name: "Terno",
+            value: "terno",
+            playerPoint: players[actualPlayer].terno,
+          })}
+          {renderButton({
+            name: "Quadra",
+            value: "quadra",
+            playerPoint: players[actualPlayer].quadra,
+          })}
+          {renderButton({
+            name: "Quina",
+            value: "quina",
+            playerPoint: players[actualPlayer].quina,
+          })}
+          {renderButton({
+            name: "Sena",
+            value: "sena",
+            playerPoint: players[actualPlayer].sena,
+          })}
+          {renderButton({
+            name: "Full",
+            value: "full",
+            playerPoint: players[actualPlayer].full,
+          })}
+          {renderButton({
+            name: "Seguida",
+            value: "seguida",
+            playerPoint: players[actualPlayer].seguida,
+          })}
+          {renderButton({
+            name: "Quadrada",
+            value: "quadrada",
+            playerPoint: players[actualPlayer].quadrada,
+          })}
+          {renderButton({
+            name: "General",
+            value: "general",
+            playerPoint: players[actualPlayer].general,
+          })}
         </div>
         <div className="flex w-full justify-between">
           <button

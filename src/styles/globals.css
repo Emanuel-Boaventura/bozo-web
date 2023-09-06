@@ -34,7 +34,7 @@
   }
 
   .square-title {
-    /* @apply; */
+    @apply font-medium;
   }
   .square-point {
     @apply text-3xl;
