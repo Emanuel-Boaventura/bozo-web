@@ -30,7 +30,7 @@
   }
 
   .square {
-    @apply flex flex-col bg-white items-center justify-between p-3 gap-2 h-[84px];
+    @apply flex flex-col bg-yellow-800 text-orange-50 items-center justify-between p-3 gap-2 h-[84px];
   }
 
   .square-title {

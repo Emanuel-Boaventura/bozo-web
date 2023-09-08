@@ -1,5 +1,7 @@
 import SelectValue from "@/components/SelectValue";
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
+import Image from "next/image";
+import cut from "@/public/cut.png";
 import { useState } from "react";
 
 export type TPoint =
@@ -65,7 +67,17 @@ export default function Game() {
       value={value}
       onClick={handleSquareClick}
     >
-      <p className="square-point">{playerPoint}</p>
+      <p className="square-point">
+        {playerPoint === 0 ? (
+          <Image
+            src={cut}
+            alt="Cortado"
+            className="h-9 w-9 leading-none top-2 right-2 active:translate-y-[1px] transition-transform"
+          />
+        ) : (
+          playerPoint
+        )}
+      </p>
       <p className="square-title">{name}</p>
     </button>
   );
@@ -79,26 +91,25 @@ export default function Game() {
         point={point}
       />
       <header
-        className=" w-full p-2"
+        className=" w-full p-4"
         style={{
           backgroundColor: players[actualPlayer].bgColor,
         }}
       >
-        <p className="text-2xl font-bold text-center">Bozó WEB!</p>
-        <p className="text-lg text-center">{players[actualPlayer].name}</p>
-      </header>
+        <p className="text-2xl font-bold text-center">BOZÓ WEB!</p>
+        <p className="text-lg text-center font-semibold">
+          {players[actualPlayer].name}
+        </p>
 
-      <div
-        style={{
-          backgroundColor: players[actualPlayer].bgColor,
-        }}
-      >
-        <p className="text-8xl text-center py-5">
+        <p className="text-8xl font-semibold text-center mt-5">
           {playerSum(players[actualPlayer])}
         </p>
-      </div>
-      <main className="flex flex-col justify-between p-4 gap-6">
-        <div className="grid grid-cols-3 leading-none bg-black gap-[1px] p-[1px]">
+      </header>
+      <main
+        className="flex flex-col p-4 pb-10 gap-6 bg-yellow-800 text-orange-50
+        min-h-[calc(100vh-208px)]"
+      >
+        <div className="grid grid-cols-3 leading-none bg-orange-50 gap-[1px] p-[1px]">
           {renderButton({
             name: "Ás",
             value: "as",
@@ -154,7 +165,7 @@ export default function Game() {
         <div className="flex w-full justify-between">
           <button
             type="button"
-            className="p-4 border w-32 border-solid border-red-500"
+            className="p-4 w-32 bg-orange-200 text-orange-950 rounded-lg font-bold tracking-wide shadow"
             onClick={prevPlayer}
           >
             Voltar
@@ -162,10 +173,10 @@ export default function Game() {
 
           <button
             type="button"
-            className="p-4 border w-32 border-solid border-green-500"
+            className="p-4 w-32 bg-orange-400 text-orange-50 rounded-lg font-bold tracking-wide shadow"
             onClick={nextPlayer}
           >
-            Proximo
+            Próximo
           </button>
         </div>
       </main>
