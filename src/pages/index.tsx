@@ -37,77 +37,80 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col items-center p-10 bg-yellow-900 text-orange-100 min-h-screen">
-      <h1 className="text-2xl font-bold text-center">Bem vindo ao Bozó WEB!</h1>
-
+    <>
       <AddPlayer open={open} setOpen={setOpen} />
+      <main className="flex flex-col items-center p-10 bg-yellow-900 text-orange-50 min-h-screen">
+        <h1 className="text-2xl font-bold text-center">
+          Bem vindo ao Bozó WEB!
+        </h1>
 
-      <p className="text-center">
-        Escolha quantos jogadores participarão do jogo.
-      </p>
+        <p className="text-center">
+          Escolha quantos jogadores participarão do jogo.
+        </p>
 
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="column-1">
-          {(provided) => (
-            <div
-              className="flex flex-col w-full mt-10"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {players.map((player, index) => (
-                <Draggable
-                  key={player.name}
-                  draggableId={player.name}
-                  index={index}
-                >
-                  {(providedTwo) => (
-                    <div
-                      className="relative bg-orange-100 text-center shadow mt-4 rounded-lg overflow-hidden "
-                      ref={providedTwo.innerRef}
-                      {...providedTwo.draggableProps}
-                      {...providedTwo.dragHandleProps}
-                    >
-                      <Image
-                        src={xmark}
-                        alt="Botão de fechar"
-                        onClick={() => remove(player.name)}
-                        className="absolute w-5 h-5 top-2 right-2 active:translate-y-[1px] transition-transform"
-                      />
-
-                      <p className="mt-2 mb-1 text-yellow-950 font-bold">
-                        {player.name}
-                      </p>
-
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="column-1">
+            {(provided) => (
+              <div
+                className="flex flex-col w-full mt-10"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {players.map((player, index) => (
+                  <Draggable
+                    key={player.name}
+                    draggableId={player.name}
+                    index={index}
+                  >
+                    {(providedTwo) => (
                       <div
-                        className="w-full h-[14px]"
-                        style={{
-                          backgroundColor: player.color,
-                        }}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+                        className="relative bg-orange-100 text-center shadow mt-4 rounded-lg overflow-hidden "
+                        ref={providedTwo.innerRef}
+                        {...providedTwo.draggableProps}
+                        {...providedTwo.dragHandleProps}
+                      >
+                        <Image
+                          src={xmark}
+                          alt="Botão de fechar"
+                          onClick={() => remove(player.name)}
+                          className="absolute w-5 h-5 top-2 right-2 active:translate-y-[1px] transition-transform"
+                        />
 
-      <button
-        type="button"
-        className="font-semibold w-full p-2 text-center mt-5 rounded-lg border-dashed opacity-60 border-orange-100 border-[3px] "
-        onClick={() => setOpen(true)}
-      >
-        Adicionar jogador
-      </button>
+                        <p className="mt-2 mb-1 text-yellow-950 font-bold">
+                          {player.name}
+                        </p>
 
-      <Link
-        href={"/game"}
-        className="font-bold w-full shadow p-4 text-center mt-20 rounded-lg bg-orange-100 !text-orange-950"
-      >
-        Iniciar partida
-      </Link>
-    </main>
+                        <div
+                          className="w-full h-[14px]"
+                          style={{
+                            backgroundColor: player.color,
+                          }}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+        <button
+          type="button"
+          className="font-semibold w-full p-2 text-center mt-5 rounded-lg border-dashed opacity-60 border-orange-100 border-[3px] "
+          onClick={() => setOpen(true)}
+        >
+          Adicionar jogador
+        </button>
+
+        <Link
+          href={"/game"}
+          className="font-bold w-full shadow p-4 text-center mt-20 rounded-lg bg-orange-100 !text-orange-950"
+        >
+          Iniciar partida
+        </Link>
+      </main>
+    </>
   );
 }
