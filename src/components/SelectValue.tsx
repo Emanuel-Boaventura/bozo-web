@@ -1,4 +1,5 @@
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
+import { useClickOutside } from "@/hooks/onClickOutside";
 import { TPoint } from "@/pages/game";
 import xmark from "@/public/xmark.svg";
 import Image from "next/image";
@@ -18,6 +19,7 @@ export default function SelectValue({
   actualPlayer,
 }: ISelectValue) {
   const { setPlayers } = usePlayersContext();
+  const ref = useClickOutside(() => setOpen(false));
 
   function getPoints(value: string) {
     if (value === "as") {
@@ -66,12 +68,15 @@ export default function SelectValue({
   if (open) {
     return (
       <div className="fixed z-50 h-screen w-screen bg-[rgba(0,0,0,0.7)] flex items-center justify-center">
-        <div className="relative bg-white rounded py-8 px-4 max-w-[90%] w-fit">
+        <div
+          ref={ref}
+          className="relative bg-orange-100 w-80 text-yellow-950 rounded-lg py-8 px-4 max-w-[90%]"
+        >
           <Image
             src={xmark}
             alt="Botão de fechar"
             onClick={() => setOpen(false)}
-            className="absolute w-5 h-5 top-2 right-2 active:translate-y-[1px] transition-transform"
+            className="absolute w-5 h-5 top-2 right-2 active:translate-y-[1px] transition-transform cursor-pointer"
           />
           <p className="text-2xl font-bold text-center mb-5">
             Selecione o valor
@@ -82,7 +87,7 @@ export default function SelectValue({
               <button
                 key={number}
                 type="button"
-                className="font-bold text-lg border rounded-full flex items-center justify-center h-14 w-14"
+                className="font-semibold text-lg bg-yellow-800 shadow text-orange-50 rounded-full flex items-center justify-center h-14 w-14"
                 onClick={() => handleSetPoint(number)}
               >
                 {number}

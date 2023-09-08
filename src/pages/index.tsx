@@ -39,7 +39,7 @@ export default function Home() {
   return (
     <>
       <AddPlayer open={open} setOpen={setOpen} />
-      <main className="flex flex-col items-center p-10 text-orange-50 min-h-screen">
+      <main className="flex flex-col items-center p-10 bg-yellow-800 text-orange-50 min-h-screen">
         <h1 className="text-2xl font-bold text-center">
           Bem vindo ao Bozó WEB!
         </h1>
