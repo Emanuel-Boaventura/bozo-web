@@ -37,7 +37,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col gap-4 items-center justify-between p-10">
+    <main className="flex flex-col items-center p-10 bg-yellow-900 text-orange-100 min-h-screen">
       <h1 className="text-2xl font-bold text-center">Bem vindo ao Bozó WEB!</h1>
 
       <AddPlayer open={open} setOpen={setOpen} />
@@ -50,7 +50,7 @@ export default function Home() {
         <Droppable droppableId="column-1">
           {(provided) => (
             <div
-              className="flex flex-col w-full"
+              className="flex flex-col w-full mt-10"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
@@ -62,7 +62,7 @@ export default function Home() {
                 >
                   {(providedTwo) => (
                     <div
-                      className="relative bg-white text-center border border-black mt-4"
+                      className="relative bg-orange-100 text-center shadow mt-4 rounded-lg overflow-hidden "
                       ref={providedTwo.innerRef}
                       {...providedTwo.draggableProps}
                       {...providedTwo.dragHandleProps}
@@ -74,10 +74,12 @@ export default function Home() {
                         className="absolute w-5 h-5 top-2 right-2 active:translate-y-[1px] transition-transform"
                       />
 
-                      <p className="mt-2 mb-1">{player.name}</p>
+                      <p className="mt-2 mb-1 text-yellow-950 font-bold">
+                        {player.name}
+                      </p>
 
                       <div
-                        className="w-full h-2"
+                        className="w-full h-[14px]"
                         style={{
                           backgroundColor: player.color,
                         }}
@@ -94,7 +96,7 @@ export default function Home() {
 
       <button
         type="button"
-        className="font w-full p-2 text-center mt-5 border border-black"
+        className="font-semibold w-full p-2 text-center mt-5 rounded-lg border-dashed opacity-60 border-orange-100 border-[3px] "
         onClick={() => setOpen(true)}
       >
         Adicionar jogador
@@ -102,7 +104,7 @@ export default function Home() {
 
       <Link
         href={"/game"}
-        className="font-bold w-full p-4 text-center mt-10 border border-black"
+        className="font-bold w-full shadow p-4 text-center mt-20 rounded-lg bg-orange-100 !text-orange-950"
       >
         Iniciar partida
       </Link>
