@@ -1,7 +1,11 @@
 import SelectValue from "@/components/SelectValue";
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
-import Image from "next/image";
 import cut from "@/public/cut.png";
+import dice from "@/public/dice.svg";
+import gear from "@/public/gear.svg";
+import home from "@/public/home.svg";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export type TPoint =
@@ -27,6 +31,7 @@ export default function Game() {
   const [actualPlayer, setActualPlayer] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
   const [point, setPoint] = useState<TPoint>("");
+  const router = useRouter();
 
   function nextPlayer() {
     setActualPlayer((prevState) =>
@@ -90,12 +95,32 @@ export default function Game() {
         actualPlayer={actualPlayer}
         point={point}
       />
+
       <header
-        className=" w-full p-4"
+        className="relative w-full p-4"
         style={{
           backgroundColor: players[actualPlayer].bgColor,
         }}
       >
+        <Image
+          src={dice}
+          alt="Home Button"
+          className="h-6 w-6 top-4 left-4 active:translate-y-[1px] absolute"
+        />
+
+        <Image
+          src={gear}
+          alt="Home Button"
+          className="h-6 w-6 top-4 right-4 active:translate-y-[1px] absolute"
+        />
+
+        <Image
+          src={home}
+          alt="Home Button"
+          className="h-6 w-6 top-4 right-14 active:translate-y-[1px] absolute"
+          onClick={() => router.push("/")}
+        />
+
         <p className="text-2xl font-bold text-center">BOZÓ WEB!</p>
         <p className="text-lg text-center font-semibold">
           {players[actualPlayer].name}
@@ -106,7 +131,7 @@ export default function Game() {
         </p>
       </header>
       <main
-        className="flex flex-col p-4 pb-10 gap-6 bg-yellow-800 text-orange-50
+        className="flex flex-col p-4 pb-10 gap-6 bg-yellow-800  text-orange-50
         min-h-[calc(100vh-208px)]"
       >
         <div className="grid grid-cols-3 leading-none bg-orange-50 gap-[1px] p-[1px]">
