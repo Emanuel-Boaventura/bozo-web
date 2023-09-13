@@ -1,6 +1,6 @@
 import { usePlayersContext } from "@/context/playersContext";
-import { getRandomHexColor } from "@/hooks/getRandomHexColor";
-import { hexToRgbA } from "@/hooks/getRandomRgbColor";
+import { getRandomRgbColor } from "@/hooks/getRandomRgbColor";
+import { getRgbToHex } from "@/hooks/getRgbToHex";
 import { useClickOutside } from "@/hooks/onClickOutside";
 import xmark from "@/public/xmark.svg";
 import Image from "next/image";
@@ -22,15 +22,15 @@ export default function AddPlayer({ open, setOpen }: IAddPlayer) {
       if (players.some((p) => p.name === newPlayer)) {
         setError("Um jogador com esse nome já existe.");
       } else {
-        const hex = getRandomHexColor();
-        const rgb = hexToRgbA(hex);
+        const rgb = getRandomRgbColor();
+        const hex = getRgbToHex(rgb);
 
         setPlayers((prevState) => [
           ...prevState,
           {
             name: newPlayer,
             color: hex,
-            bgColor: rgb,
+            bgColor: `${rgb.slice(0)}, 0.5)`,
 
             as: null,
             duque: null,
