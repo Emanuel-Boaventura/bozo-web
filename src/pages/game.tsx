@@ -1,4 +1,5 @@
 import SelectValue from "@/components/SelectValue";
+import Settings from "@/components/Settings";
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
 import cut from "@/public/cut.png";
 import dice from "@/public/dice.svg";
@@ -30,6 +31,7 @@ export default function Game() {
   const { players } = usePlayersContext();
   const [actualPlayer, setActualPlayer] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
+  const [openSettings, setOpenSettings] = useState<boolean>(false);
   const [point, setPoint] = useState<TPoint>("");
   const router = useRouter();
 
@@ -93,8 +95,11 @@ export default function Game() {
         open={open}
         setOpen={setOpen}
         actualPlayer={actualPlayer}
+        onNextPlayer={nextPlayer}
         point={point}
       />
+
+      <Settings open={openSettings} setOpen={setOpenSettings} />
 
       <header
         className="relative w-full p-4"
@@ -112,6 +117,7 @@ export default function Game() {
           src={gear}
           alt="Home Button"
           className="h-6 w-6 top-4 right-4 active:translate-y-[1px] absolute"
+          onClick={() => setOpenSettings(true)}
         />
 
         <Image

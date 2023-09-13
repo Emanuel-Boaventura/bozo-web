@@ -30,11 +30,14 @@ export interface IPlayer {
 interface IPlayersContext {
   players: IPlayer[];
   setPlayers: Dispatch<SetStateAction<IPlayer[]>>;
+  automaticNext: boolean;
+  setAutomaticNext: Dispatch<SetStateAction<boolean>>;
 }
 
 const PlayersContext = createContext({} as IPlayersContext);
 
 export function PlayersProvider({ children }: PlayersProps) {
+  const [automaticNext, setAutomaticNext] = useState<boolean>(false);
   const [players, setPlayers] = useState<IPlayer[]>([
     {
       name: "Marcos",
@@ -99,7 +102,9 @@ export function PlayersProvider({ children }: PlayersProps) {
   ]);
 
   return (
-    <PlayersContext.Provider value={{ players, setPlayers }}>
+    <PlayersContext.Provider
+      value={{ players, setPlayers, automaticNext, setAutomaticNext }}
+    >
       {children}
     </PlayersContext.Provider>
   );

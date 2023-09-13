@@ -10,6 +10,7 @@ interface ISelectValue {
   setOpen: Dispatch<SetStateAction<boolean>>;
   point: TPoint;
   actualPlayer: number;
+  onNextPlayer: () => void;
 }
 
 export default function SelectValue({
@@ -17,8 +18,9 @@ export default function SelectValue({
   setOpen,
   point,
   actualPlayer,
+  onNextPlayer,
 }: ISelectValue) {
-  const { setPlayers } = usePlayersContext();
+  const { setPlayers, automaticNext } = usePlayersContext();
   const ref = useClickOutside(() => setOpen(false));
 
   function getPoints(value: string) {
@@ -55,13 +57,15 @@ export default function SelectValue({
     return [];
   }
 
-  function handleSetPoint(value: number) {
+  function handleSetPoint(value: number | null) {
     setPlayers((prevState) => {
       const updatedPLayers = prevState.map((player, index) =>
         index === actualPlayer ? { ...player, [point]: value } : player
       );
       return updatedPLayers as IPlayer[];
     });
+
+    if (automaticNext) onNextPlayer();
     setOpen(false);
   }
 
@@ -83,6 +87,13 @@ export default function SelectValue({
           </p>
 
           <div className="flex flex-wrap gap-4 justify-center">
+            <button
+              type="button"
+              className="font-semibold text-sm bg-yellow-800 shadow text-orange-50 rounded-full flex items-center justify-center h-14 w-14"
+              onClick={() => handleSetPoint(null)}
+            >
+              Vazio
+            </button>
             {getPoints(point)?.map((number) => (
               <button
                 key={number}
