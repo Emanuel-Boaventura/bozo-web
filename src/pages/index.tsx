@@ -1,9 +1,9 @@
 import AddPlayer from "@/components/AddPlayer";
 import GameAlert from "@/components/GameAlert";
 import { useGameContext } from "@/context/gameContext";
-import { initalPlayers } from "@/context/initialPlayers";
 import { usePlayersContext } from "@/context/playersContext";
 import xmark from "@/public/xmark.svg";
+import { initalPlayers } from "@/utils/data";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";

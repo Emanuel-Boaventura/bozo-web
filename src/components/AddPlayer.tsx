@@ -3,6 +3,7 @@ import { getRandomRgbColor } from "@/hooks/getRandomRgbColor";
 import { getRgbToHex } from "@/hooks/getRgbToHex";
 import { useClickOutside } from "@/hooks/onClickOutside";
 import xmark from "@/public/xmark.svg";
+import { emptyPoints } from "@/utils/data";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -31,17 +32,7 @@ export default function AddPlayer({ open, setOpen }: IAddPlayer) {
             name: newPlayer,
             color: hex,
             bgColor: `${rgb.slice(0)}, 0.5)`,
-
-            as: null,
-            duque: null,
-            terno: null,
-            quadra: null,
-            quina: null,
-            sena: null,
-            full: null,
-            seguida: null,
-            quadrada: null,
-            general: null,
+            ...emptyPoints,
           },
         ]);
 

@@ -1,3 +1,4 @@
+import { initalPlayers } from "@/utils/data";
 import {
   createContext,
   useContext,
@@ -6,7 +7,6 @@ import {
   type ReactNode,
   type SetStateAction,
 } from "react";
-import { initalPlayers } from "./initialPlayers";
 
 interface PlayersProps {
   children: ReactNode;
