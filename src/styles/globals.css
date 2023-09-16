@@ -29,6 +29,10 @@
     @apply bg-default-100 font-bold py-2 px-4 w-fit rounded-xl shadow-md transition-transform active:translate-y-px;
   }
 
+  .game-buttons {
+    @apply h-6 w-6 top-4 active:translate-y-[1px] absolute;
+  }
+
   .square {
     @apply flex !translate-y-0 flex-col bg-yellow-800 text-orange-50 items-center justify-between p-3 gap-2 h-[84px];
   }
@@ -36,6 +40,7 @@
   .square-title {
     @apply font-medium;
   }
+
   .square-point {
     @apply text-3xl;
   }
@@ -72,18 +77,14 @@ button {
 
 /* custom scrollbar */
 ::-webkit-scrollbar {
-  background-color: transparent;
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: rgba($color: #bbb, $alpha: 0.8);
+  width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba($color: #5f5f5f, $alpha: 0.8);
+  background-color: rgb(113, 63, 18);
+  border-radius: 16px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba($color: #545151, $alpha: 0.8);
+  background-color: rgb(66, 32, 6);
 }

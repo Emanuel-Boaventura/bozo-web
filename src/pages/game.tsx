@@ -1,11 +1,12 @@
 import GameAlert from "@/components/GameAlert";
+import Scoreboard from "@/components/Scoreboard";
 import SelectValue from "@/components/SelectValue";
 import Settings from "@/components/Settings";
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
 import cut from "@/public/cut.png";
-import dice from "@/public/dice.svg";
 import gear from "@/public/gear.svg";
 import home from "@/public/home.svg";
+import rank from "@/public/rank.svg";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -31,8 +32,11 @@ interface IRenderButton {
 export default function Game() {
   const { players } = usePlayersContext();
   const [actualPlayer, setActualPlayer] = useState<number>(0);
+
   const [open, setOpen] = useState<boolean>(false);
   const [openSettings, setOpenSettings] = useState<boolean>(false);
+  const [openScoreboard, setOpenScoreboard] = useState<boolean>(false);
+
   const [point, setPoint] = useState<TPoint>("");
   const router = useRouter();
 
@@ -101,6 +105,7 @@ export default function Game() {
       />
 
       <Settings open={openSettings} setOpen={setOpenSettings} />
+      <Scoreboard open={openScoreboard} setOpen={setOpenScoreboard} />
 
       <GameAlert />
 
@@ -113,20 +118,28 @@ export default function Game() {
         {/* <Image
           src={dice}
           alt="Trhow Dices"
-          className="h-6 w-6 top-4 left-4 active:translate-y-[1px] absolute"
+          classNam
+          e="game-buttons left-4 "
         /> */}
+
+        <Image
+          src={rank}
+          alt="Scoreboard Button"
+          className="game-buttons left-4"
+          onClick={() => setOpenScoreboard(true)}
+        />
 
         <Image
           src={gear}
           alt="Settings Button"
-          className="h-6 w-6 top-4 right-4 active:translate-y-[1px] absolute"
+          className="game-buttons right-4"
           onClick={() => setOpenSettings(true)}
         />
 
         <Image
           src={home}
           alt="Home Button"
-          className="h-6 w-6 top-4 right-14 active:translate-y-[1px] absolute"
+          className="game-buttons right-14"
           onClick={() => router.push("/")}
         />
 

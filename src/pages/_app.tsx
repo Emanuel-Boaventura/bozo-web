@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
           <meta
             property="og:description"
-            content="Precisa marcar os pontos da partida de bozó, mas não quer user papel e caneta? Não se preocupe, o bozó web está aqui justamente para te ajudar!"
+            content="Precisa marcar os pontos da partida de bozó, mas não quer usar papel e caneta? Não se preocupe, o bozó web está aqui justamente para te ajudar!"
             key="ogdesc"
           />
 
