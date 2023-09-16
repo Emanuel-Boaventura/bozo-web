@@ -110,15 +110,15 @@ export default function Game() {
           backgroundColor: players[actualPlayer].bgColor,
         }}
       >
-        <Image
+        {/* <Image
           src={dice}
-          alt="Home Button"
+          alt="Trhow Dices"
           className="h-6 w-6 top-4 left-4 active:translate-y-[1px] absolute"
-        />
+        /> */}
 
         <Image
           src={gear}
-          alt="Home Button"
+          alt="Settings Button"
           className="h-6 w-6 top-4 right-4 active:translate-y-[1px] absolute"
           onClick={() => setOpenSettings(true)}
         />
