@@ -17,8 +17,8 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
         <meta property="og:image" content="/shared-image.png" />
-        <meta property="og:image:height" content="1000" />
-        <meta property="og:image:width" content="1000" />
+        <meta property="og:image:height" content="400" />
+        <meta property="og:image:width" content="400" />
 
         <meta
           property="og:title"
