@@ -1,11 +1,13 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useState,
   type Dispatch,
   type ReactNode,
   type SetStateAction,
 } from "react";
+import { initalPlayers } from "./initialPlayers";
 
 interface PlayersProps {
   children: ReactNode;
@@ -32,78 +34,42 @@ interface IPlayersContext {
   setPlayers: Dispatch<SetStateAction<IPlayer[]>>;
   automaticNext: boolean;
   setAutomaticNext: Dispatch<SetStateAction<boolean>>;
+  unfinishedGame: boolean;
+  setUnfinishedGame: Dispatch<SetStateAction<boolean>>;
+  currentGame: string | null;
+  setCurrentGame: Dispatch<SetStateAction<string | null>>;
 }
 
 const PlayersContext = createContext({} as IPlayersContext);
 
 export function PlayersProvider({ children }: PlayersProps) {
   const [automaticNext, setAutomaticNext] = useState<boolean>(false);
-  const [players, setPlayers] = useState<IPlayer[]>([
-    {
-      name: "Marcos",
-      color: "#ff0000",
-      bgColor: "rgb(255, 0, 0, 0.5)",
-      as: null,
-      duque: null,
-      terno: null,
-      quadra: null,
-      quina: null,
-      sena: null,
-      full: null,
-      seguida: null,
-      quadrada: null,
-      general: null,
-    },
-    {
-      name: "Faria",
-      color: "#0000ff",
-      bgColor: "rgb(0, 0, 255, 0.5)",
-      as: null,
-      duque: null,
-      terno: null,
-      quadra: null,
-      quina: null,
-      sena: null,
-      full: null,
-      seguida: null,
-      quadrada: null,
-      general: null,
-    },
-    {
-      name: "Emanuel",
-      as: null,
-      color: "#00ff00",
-      bgColor: "rgb(0, 255, 0,0.5)",
-      duque: null,
-      terno: null,
-      quadra: null,
-      quina: null,
-      sena: null,
-      full: null,
-      seguida: null,
-      quadrada: null,
-      general: null,
-    },
-    {
-      name: "João Lucas",
-      color: "#ffa500",
-      bgColor: "rgb(255, 165, 0,0.5)",
-      as: null,
-      duque: null,
-      terno: null,
-      quadra: null,
-      quina: null,
-      sena: null,
-      full: null,
-      seguida: null,
-      quadrada: null,
-      general: null,
-    },
-  ]);
+  const [players, setPlayers] = useState<IPlayer[]>(initalPlayers);
+
+  const [unfinishedGame, setUnfinishedGame] = useState<boolean>(false);
+  const [currentGame, setCurrentGame] = useState<string | null>(null);
+  console.log("currentGame:", currentGame);
+
+  useEffect(() => {
+    const gameExist = localStorage.getItem("partida-bozó");
+    if (gameExist) {
+      setCurrentGame(gameExist);
+      setUnfinishedGame(true);
+    }
+  }, []);
 
   return (
     <PlayersContext.Provider
-      value={{ players, setPlayers, automaticNext, setAutomaticNext }}
+      value={{
+        players,
+        setPlayers,
+        automaticNext,
+        setAutomaticNext,
+        unfinishedGame,
+        setUnfinishedGame,
+        currentGame,
+        setCurrentGame,
+      }}
     >
       {children}
     </PlayersContext.Provider>

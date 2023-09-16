@@ -62,6 +62,7 @@ export default function SelectValue({
       const updatedPLayers = prevState.map((player, index) =>
         index === actualPlayer ? { ...player, [point]: value } : player
       );
+      localStorage.setItem("partida-bozó", JSON.stringify(updatedPLayers));
       return updatedPLayers as IPlayer[];
     });
 
@@ -92,7 +93,7 @@ export default function SelectValue({
               className="font-semibold text-sm bg-yellow-800 shadow text-orange-50 rounded-full flex items-center justify-center h-14 w-14"
               onClick={() => handleSetPoint(null)}
             >
-              Vazio
+              Limpar
             </button>
             {getPoints(point)?.map((number) => (
               <button

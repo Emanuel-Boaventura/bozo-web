@@ -1,14 +1,19 @@
 import AddPlayer from "@/components/AddPlayer";
+import GameAlert from "@/components/GameAlert";
+import { initalPlayers } from "@/context/initialPlayers";
 import { usePlayersContext } from "@/context/playersContext";
 import xmark from "@/public/xmark.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 export default function Home() {
-  const { players, setPlayers } = usePlayersContext();
+  const { players, setPlayers, currentGame, setCurrentGame } =
+    usePlayersContext();
   const [open, setOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleDragEnd = (result: any) => {
     const { destination, source } = result;
@@ -36,9 +41,16 @@ export default function Home() {
     setPlayers((prevState) => prevState.filter((p) => p.name !== name));
   }
 
+  function handleNewGame() {
+    setPlayers(initalPlayers);
+    localStorage.removeItem("partida-bozó");
+    setCurrentGame(null);
+  }
+
   return (
     <>
       <AddPlayer open={open} setOpen={setOpen} />
+      <GameAlert />
       <main className="flex flex-col items-center p-10 bg-yellow-800 text-orange-50 min-h-screen">
         <h1 className="text-2xl font-bold text-center">
           Bem vindo ao Bozó WEB!
@@ -98,17 +110,26 @@ export default function Home() {
 
         <button
           type="button"
-          className="font-semibold w-full p-2 text-center mt-5 rounded-lg border-dashed opacity-60 border-orange-100 border-[3px] "
+          className="font-semibold w-full p-2 text-center mt-5 rounded-lg border-dashed opacity-60 border-orange-100 border-[3px] mb-20"
           onClick={() => setOpen(true)}
         >
           Adicionar jogador
         </button>
 
+        {currentGame && (
+          <button
+            onClick={handleNewGame}
+            className="font-bold w-full shadow p-4 text-center mb-4  rounded-lg bg-orange-950 !text-orange-50"
+          >
+            Novo jogo
+          </button>
+        )}
+
         <Link
           href={"/game"}
-          className="font-bold w-full shadow p-4 text-center mt-20 rounded-lg bg-orange-100 !text-orange-950"
+          className="font-bold w-full shadow p-4 text-center rounded-lg bg-orange-100 !text-orange-950"
         >
-          Iniciar partida
+          {currentGame ? "Retomar jogo" : "Iniciar partida"}
         </Link>
       </main>
     </>

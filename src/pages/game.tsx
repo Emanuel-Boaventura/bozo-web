@@ -1,3 +1,4 @@
+import GameAlert from "@/components/GameAlert";
 import SelectValue from "@/components/SelectValue";
 import Settings from "@/components/Settings";
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
@@ -100,6 +101,8 @@ export default function Game() {
       />
 
       <Settings open={openSettings} setOpen={setOpenSettings} />
+
+      <GameAlert />
 
       <header
         className="relative w-full p-4"

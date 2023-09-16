@@ -4,7 +4,7 @@ import { getRgbToHex } from "@/hooks/getRgbToHex";
 import { useClickOutside } from "@/hooks/onClickOutside";
 import xmark from "@/public/xmark.svg";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface IAddPlayer {
   open: boolean;
@@ -54,10 +54,6 @@ export default function AddPlayer({ open, setOpen }: IAddPlayer) {
       setError("Erro ao adicionar jogador, tente novamente.");
     }
   }
-
-  useEffect(() => {
-    console.log("run");
-  }, [open]);
 
   if (open) {
     return (
