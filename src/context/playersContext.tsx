@@ -48,7 +48,6 @@ export function PlayersProvider({ children }: PlayersProps) {
 
   const [unfinishedGame, setUnfinishedGame] = useState<boolean>(false);
   const [currentGame, setCurrentGame] = useState<string | null>(null);
-  console.log("currentGame:", currentGame);
 
   useEffect(() => {
     const gameExist = localStorage.getItem("partida-bozó");
