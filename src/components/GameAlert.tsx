@@ -1,16 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useGameContext } from "@/context/gameContext";
 import { initalPlayers } from "@/context/initialPlayers";
 import { usePlayersContext } from "@/context/playersContext";
 import { useRouter } from "next/router";
 
 export default function GameAlert() {
-  const {
-    setPlayers,
-    unfinishedGame,
-    setUnfinishedGame,
-    currentGame,
-    setCurrentGame,
-  } = usePlayersContext();
+  const { setPlayers } = usePlayersContext();
+  const { unfinishedGame, setUnfinishedGame, currentGame, setCurrentGame } =
+    useGameContext();
   const router = useRouter();
 
   function handleResumeGame() {

@@ -1,3 +1,4 @@
+import { useGameContext } from "@/context/gameContext";
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
 import { useClickOutside } from "@/hooks/onClickOutside";
 import { TPoint } from "@/pages/game";
@@ -20,7 +21,8 @@ export default function SelectValue({
   actualPlayer,
   onNextPlayer,
 }: ISelectValue) {
-  const { setPlayers, automaticNext } = usePlayersContext();
+  const { setPlayers } = usePlayersContext();
+  const { automaticNext } = useGameContext();
   const ref = useClickOutside(() => setOpen(false));
 
   function getPoints(value: string) {

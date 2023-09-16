@@ -1,7 +1,6 @@
 import {
   createContext,
   useContext,
-  useEffect,
   useState,
   type Dispatch,
   type ReactNode,
@@ -32,42 +31,18 @@ export interface IPlayer {
 interface IPlayersContext {
   players: IPlayer[];
   setPlayers: Dispatch<SetStateAction<IPlayer[]>>;
-  automaticNext: boolean;
-  setAutomaticNext: Dispatch<SetStateAction<boolean>>;
-  unfinishedGame: boolean;
-  setUnfinishedGame: Dispatch<SetStateAction<boolean>>;
-  currentGame: string | null;
-  setCurrentGame: Dispatch<SetStateAction<string | null>>;
 }
 
 const PlayersContext = createContext({} as IPlayersContext);
 
 export function PlayersProvider({ children }: PlayersProps) {
-  const [automaticNext, setAutomaticNext] = useState<boolean>(false);
   const [players, setPlayers] = useState<IPlayer[]>(initalPlayers);
-
-  const [unfinishedGame, setUnfinishedGame] = useState<boolean>(false);
-  const [currentGame, setCurrentGame] = useState<string | null>(null);
-
-  useEffect(() => {
-    const gameExist = localStorage.getItem("partida-bozó");
-    if (gameExist) {
-      setCurrentGame(gameExist);
-      setUnfinishedGame(true);
-    }
-  }, []);
 
   return (
     <PlayersContext.Provider
       value={{
         players,
         setPlayers,
-        automaticNext,
-        setAutomaticNext,
-        unfinishedGame,
-        setUnfinishedGame,
-        currentGame,
-        setCurrentGame,
       }}
     >
       {children}

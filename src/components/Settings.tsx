@@ -1,4 +1,4 @@
-import { usePlayersContext } from "@/context/playersContext";
+import { useGameContext } from "@/context/gameContext";
 import { useClickOutside } from "@/hooks/onClickOutside";
 import check from "@/public/check.svg";
 import xmark from "@/public/xmark.svg";
@@ -12,7 +12,7 @@ interface ISettings {
 }
 
 export default function Settings({ open, setOpen }: ISettings) {
-  const { automaticNext, setAutomaticNext } = usePlayersContext();
+  const { automaticNext, setAutomaticNext } = useGameContext();
   const ref = useClickOutside(() => setOpen(false));
 
   if (open) {

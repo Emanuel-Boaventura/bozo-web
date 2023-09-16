@@ -1,5 +1,6 @@
 import AddPlayer from "@/components/AddPlayer";
 import GameAlert from "@/components/GameAlert";
+import { useGameContext } from "@/context/gameContext";
 import { initalPlayers } from "@/context/initialPlayers";
 import { usePlayersContext } from "@/context/playersContext";
 import xmark from "@/public/xmark.svg";
@@ -10,8 +11,8 @@ import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 export default function Home() {
-  const { players, setPlayers, currentGame, setCurrentGame } =
-    usePlayersContext();
+  const { players, setPlayers } = usePlayersContext();
+  const { currentGame, setCurrentGame } = useGameContext();
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
 
