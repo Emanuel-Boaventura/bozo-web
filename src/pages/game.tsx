@@ -102,6 +102,7 @@ export default function Game() {
         actualPlayer={actualPlayer}
         onNextPlayer={nextPlayer}
         point={point}
+        setOpenScoreboard={setOpenScoreboard}
       />
 
       <Settings open={openSettings} setOpen={setOpenSettings} />

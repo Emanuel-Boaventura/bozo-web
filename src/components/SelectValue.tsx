@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction } from "react";
 interface ISelectValue {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpenScoreboard: Dispatch<SetStateAction<boolean>>;
   point: TPoint;
   actualPlayer: number;
   onNextPlayer: () => void;
@@ -20,6 +21,7 @@ export default function SelectValue({
   point,
   actualPlayer,
   onNextPlayer,
+  setOpenScoreboard,
 }: ISelectValue) {
   const { setPlayers } = usePlayersContext();
   const { automaticNext, setCurrentGame } = useGameContext();
@@ -64,13 +66,27 @@ export default function SelectValue({
       const updatedPLayers = prevState.map((player, index) =>
         index === actualPlayer ? { ...player, [point]: value } : player
       );
+
       setCurrentGame(JSON.stringify(updatedPLayers));
       localStorage.setItem("partida-bozó", JSON.stringify(updatedPLayers));
+
+      verifyEndGame(updatedPLayers);
       return updatedPLayers as IPlayer[];
     });
 
     if (automaticNext) onNextPlayer();
     setOpen(false);
+  }
+
+  function verifyEndGame(players: IPlayer[]) {
+    for (const player of players) {
+      for (const key in player) {
+        if (player[key as keyof IPlayer] === null) {
+          return false;
+        }
+      }
+    }
+    setOpenScoreboard(true);
   }
 
   if (open) {
