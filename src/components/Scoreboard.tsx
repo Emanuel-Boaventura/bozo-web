@@ -13,6 +13,11 @@ export default function Scoreboard({ open, setOpen }: IScoreboard) {
   const { players } = usePlayersContext();
   const ref = useClickOutside(() => setOpen(false));
 
+  const playersList = players.map((player) => ({
+    player: player.name,
+    sum: playerSum(player),
+  }));
+
   function playerSum(player: IPlayer) {
     return (
       (player.as ?? 0) +
@@ -44,14 +49,17 @@ export default function Scoreboard({ open, setOpen }: IScoreboard) {
           <p className="text-2xl font-bold text-center mb-5">Placar</p>
 
           <div className="flex flex-col gap-4 text-center max-h-[80vh] overflow-y-auto">
-            {players
-              .sort((a, b) => playerSum(b) - playerSum(a))
+            {playersList
+              .sort((a, b) => b.sum - a.sum)
               .map((player, index) => (
-                <div key={player.name} className="flex flex-col leading-tight">
+                <div
+                  key={player.player}
+                  className="flex flex-col leading-tight"
+                >
                   <p>
-                    <strong>{index + 1}-</strong> {player.name}
+                    <strong>{index + 1}-</strong> {player.player}
                   </p>
-                  <p className="font-bold">{playerSum(player)}</p>
+                  <p className="font-bold">{player.sum}</p>
                 </div>
               ))}
           </div>

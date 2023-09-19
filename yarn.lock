@@ -2103,6 +2103,11 @@ react-beautiful-dnd@^13.1.1:
     redux "^4.0.4"
     use-memo-one "^1.1.1"
 
+react-dice-complete@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-dice-complete/-/react-dice-complete-2.2.0.tgz#8f4b4d63f4699eb34caf4645265afe3f2f6e32a5"
+  integrity sha512-FeTcao97mlXi0TXdtp5FqtnnL9R2KsGl6efJce1wR0D2RH1a89ven9o0Io5blFWDsNPNXbOoxxppW6QvqmIdkg==
+
 react-dom@18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
