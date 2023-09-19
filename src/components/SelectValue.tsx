@@ -22,7 +22,7 @@ export default function SelectValue({
   onNextPlayer,
 }: ISelectValue) {
   const { setPlayers } = usePlayersContext();
-  const { automaticNext } = useGameContext();
+  const { automaticNext, setCurrentGame } = useGameContext();
   const ref = useClickOutside(() => setOpen(false));
 
   function getPoints(value: string) {
@@ -64,6 +64,7 @@ export default function SelectValue({
       const updatedPLayers = prevState.map((player, index) =>
         index === actualPlayer ? { ...player, [point]: value } : player
       );
+      setCurrentGame(JSON.stringify(updatedPLayers));
       localStorage.setItem("partida-bozó", JSON.stringify(updatedPLayers));
       return updatedPLayers as IPlayer[];
     });

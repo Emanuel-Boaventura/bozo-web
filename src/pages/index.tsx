@@ -65,7 +65,7 @@ export default function Home() {
           <Droppable droppableId="column-1">
             {(provided) => (
               <div
-                className="flex flex-col w-full mt-10"
+                className="flex flex-col w-full mt-6"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
@@ -77,7 +77,7 @@ export default function Home() {
                   >
                     {(providedTwo) => (
                       <div
-                        className="relative bg-orange-100 text-center shadow mt-4 rounded-lg overflow-hidden "
+                        className="relative bg-orange-100 text-center shadow mt-3 rounded-lg overflow-hidden "
                         ref={providedTwo.innerRef}
                         {...providedTwo.draggableProps}
                         {...providedTwo.dragHandleProps}
@@ -111,7 +111,7 @@ export default function Home() {
 
         <button
           type="button"
-          className="font-semibold w-full p-2 text-center mt-5 rounded-lg border-dashed opacity-60 border-orange-100 border-[3px] mb-20"
+          className="font-semibold w-full p-2 text-center mt-4 rounded-lg border-dashed opacity-60 border-orange-100 border-[3px] mb-8"
           onClick={() => setOpen(true)}
         >
           Adicionar jogador
@@ -120,7 +120,7 @@ export default function Home() {
         {currentGame && (
           <button
             onClick={handleNewGame}
-            className="font-bold w-full shadow p-4 text-center mb-4  rounded-lg bg-orange-950 !text-orange-50"
+            className="font-bold w-full shadow p-4 text-center mb-3 rounded-lg bg-orange-950 !text-orange-50"
           >
             Novo jogo
           </button>

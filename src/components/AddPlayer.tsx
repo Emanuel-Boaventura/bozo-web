@@ -75,7 +75,7 @@ export default function AddPlayer({ open, setOpen }: IAddPlayer) {
           )}
           <button
             type="button"
-            className="font-bold mt-4 bg-yellow-900 shadow text-orange-100 rounded-lg flex w-full justify-center  p-2"
+            className="font-bold mt-4 bg-yellow-900 shadow text-orange-100 rounded-lg flex w-full justify-center p-2"
             onClick={handleAddPlayer}
           >
             Adicionar
