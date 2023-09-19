@@ -1,6 +1,7 @@
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
 import { useClickOutside } from "@/hooks/onClickOutside";
 import xmark from "@/public/xmark.svg";
+import { emptyPoints } from "@/utils/data";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 
@@ -10,7 +11,7 @@ interface IScoreboard {
 }
 
 export default function Scoreboard({ open, setOpen }: IScoreboard) {
-  const { players } = usePlayersContext();
+  const { players, setPlayers } = usePlayersContext();
   const ref = useClickOutside(() => setOpen(false));
 
   const playersList = players.map((player) => ({
@@ -31,6 +32,19 @@ export default function Scoreboard({ open, setOpen }: IScoreboard) {
       (player.quadrada ?? 0) +
       (player.general ?? 0)
     );
+  }
+
+  function handleReset() {
+    setPlayers((players) => {
+      const resetedPlayers = players.map((player) => ({
+        ...player,
+        ...emptyPoints,
+      }));
+
+      return resetedPlayers;
+    });
+
+    setOpen(false);
   }
 
   if (open) {
@@ -63,6 +77,13 @@ export default function Scoreboard({ open, setOpen }: IScoreboard) {
                 </div>
               ))}
           </div>
+
+          <button
+            className="font-bold text-sm min-[343px]:text-base bg-yellow-900 shadow text-orange-100 rounded-lg flex w-full justify-center p-2 mt-6"
+            onClick={handleReset}
+          >
+            Reiniciar jogo
+          </button>
         </div>
       </div>
     );

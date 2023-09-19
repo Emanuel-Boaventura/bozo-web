@@ -1,9 +1,7 @@
 import { useGameContext } from "@/context/gameContext";
-import { usePlayersContext } from "@/context/playersContext";
 import { useClickOutside } from "@/hooks/onClickOutside";
 import check from "@/public/check.svg";
 import xmark from "@/public/xmark.svg";
-import { emptyPoints } from "@/utils/data";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
@@ -15,21 +13,7 @@ interface ISettings {
 
 export default function Settings({ open, setOpen }: ISettings) {
   const { automaticNext, setAutomaticNext } = useGameContext();
-  const { setPlayers } = usePlayersContext();
   const ref = useClickOutside(() => setOpen(false));
-
-  function handleReset() {
-    setPlayers((players) => {
-      const resetedPlayers = players.map((player) => ({
-        ...player,
-        ...emptyPoints,
-      }));
-
-      return resetedPlayers;
-    });
-
-    setOpen(false);
-  }
 
   if (open) {
     return (
@@ -63,13 +47,6 @@ export default function Settings({ open, setOpen }: ISettings) {
               </Checkbox.Root>
               <p className="font-medium ">Próximo automatico.</p>
             </div>
-
-            <button
-              className="font-bold text-sm min-[343px]:text-base  bg-yellow-900 shadow text-orange-100 rounded-lg flex w-full justify-center p-2"
-              onClick={handleReset}
-            >
-              Reiniciar jogo
-            </button>
           </div>
         </div>
       </div>
