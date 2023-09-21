@@ -1,14 +1,11 @@
 import GameAlert from "@/components/GameAlert";
+import { GameHeader } from "@/components/GameHeader";
 import Scoreboard from "@/components/Scoreboard";
 import SelectValue from "@/components/SelectValue";
 import Settings from "@/components/Settings";
-import { IPlayer, usePlayersContext } from "@/context/playersContext";
+import { usePlayersContext } from "@/context/playersContext";
 import cut from "@/public/cut.png";
-import gear from "@/public/gear.svg";
-import home from "@/public/home.svg";
-import rank from "@/public/rank.svg";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
 export type TPoint =
@@ -29,6 +26,7 @@ interface IRenderButton {
   value: string;
   playerPoint: null | number;
 }
+
 export default function Game() {
   const { players } = usePlayersContext();
   const [actualPlayer, setActualPlayer] = useState<number>(0);
@@ -38,7 +36,6 @@ export default function Game() {
   const [openScoreboard, setOpenScoreboard] = useState<boolean>(false);
 
   const [point, setPoint] = useState<TPoint>("");
-  const router = useRouter();
 
   function nextPlayer() {
     setActualPlayer((prevState) =>
@@ -49,21 +46,6 @@ export default function Game() {
   function prevPlayer() {
     setActualPlayer((prevState) =>
       prevState === 0 ? players.length - 1 : prevState - 1
-    );
-  }
-
-  function playerSum(player: IPlayer) {
-    return (
-      (player.as ?? 0) +
-      (player.duque ?? 0) +
-      (player.terno ?? 0) +
-      (player.quadra ?? 0) +
-      (player.quina ?? 0) +
-      (player.sena ?? 0) +
-      (player.full ?? 0) +
-      (player.seguida ?? 0) +
-      (player.quadrada ?? 0) +
-      (player.general ?? 0)
     );
   }
 
@@ -110,49 +92,12 @@ export default function Game() {
 
       <GameAlert />
 
-      <header
-        className="relative w-full p-4"
-        style={{
-          backgroundColor: players[actualPlayer].bgColor,
-        }}
-      >
-        {/* <Image
-          src={dice}
-          alt="Trhow Dices"
-          classNam
-          e="game-buttons left-4 "
-        /> */}
+      <GameHeader
+        setOpenSettings={setOpenSettings}
+        setOpenScoreboard={setOpenScoreboard}
+        player={players[actualPlayer]}
+      />
 
-        <Image
-          src={rank}
-          alt="Scoreboard Button"
-          className="game-buttons left-4"
-          onClick={() => setOpenScoreboard(true)}
-        />
-
-        <Image
-          src={gear}
-          alt="Settings Button"
-          className="game-buttons right-4"
-          onClick={() => setOpenSettings(true)}
-        />
-
-        <Image
-          src={home}
-          alt="Home Button"
-          className="game-buttons right-14"
-          onClick={() => router.push("/")}
-        />
-
-        <p className="text-2xl font-bold text-center">BOZÓ WEB!</p>
-        <p className="text-lg text-center font-semibold">
-          {players[actualPlayer].name}
-        </p>
-
-        <p className="text-8xl font-semibold text-center mt-5">
-          {playerSum(players[actualPlayer])}
-        </p>
-      </header>
       <main
         className="flex flex-col p-4 pb-10 gap-6 bg-yellow-800  text-orange-50
         min-h-[calc(100vh-208px)]"
