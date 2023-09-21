@@ -31,18 +31,40 @@ export interface IPlayer {
 interface IPlayersContext {
   players: IPlayer[];
   setPlayers: Dispatch<SetStateAction<IPlayer[]>>;
+  currentPlayer: IPlayer;
+  nextPlayer: () => void;
+  prevPlayer: () => void;
+  currentPlayerIndex: number;
 }
 
 const PlayersContext = createContext({} as IPlayersContext);
 
 export function PlayersProvider({ children }: PlayersProps) {
   const [players, setPlayers] = useState<IPlayer[]>(initalPlayers);
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
+  const currentPlayer = players[currentPlayerIndex];
+
+  function nextPlayer() {
+    setCurrentPlayerIndex((prevState) =>
+      prevState === players.length - 1 ? 0 : prevState + 1
+    );
+  }
+
+  function prevPlayer() {
+    setCurrentPlayerIndex((prevState) =>
+      prevState === 0 ? players.length - 1 : prevState - 1
+    );
+  }
 
   return (
     <PlayersContext.Provider
       value={{
         players,
         setPlayers,
+        currentPlayer,
+        nextPlayer,
+        prevPlayer,
+        currentPlayerIndex,
       }}
     >
       {children}

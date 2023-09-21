@@ -11,7 +11,6 @@ interface ISelectValue {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOpenScoreboard: Dispatch<SetStateAction<boolean>>;
   point: TPoint;
-  actualPlayer: number;
   onNextPlayer: () => void;
 }
 
@@ -19,53 +18,48 @@ export default function SelectValue({
   open,
   setOpen,
   point,
-  actualPlayer,
   onNextPlayer,
   setOpenScoreboard,
 }: ISelectValue) {
-  const { setPlayers } = usePlayersContext();
+  const { setPlayers, currentPlayerIndex } = usePlayersContext();
   const { automaticNext, setCurrentGame } = useGameContext();
   const ref = useClickOutside(() => setOpen(false));
 
   function getPoints(value: string) {
-    if (value === "as") {
-      return [0, 1, 2, 3, 4, 5];
+    switch (value) {
+      case "as":
+        return [0, 1, 2, 3, 4, 5];
+      case "duque":
+        return [0, 2, 4, 6, 8, 10];
+      case "terno":
+        return [0, 3, 6, 9, 12, 15];
+      case "quadra":
+        return [0, 4, 8, 12, 16, 20];
+      case "quina":
+        return [0, 5, 10, 15, 20, 25];
+      case "sena":
+        return [0, 6, 12, 18, 24, 30];
+      case "full":
+        return [0, 10, 15];
+      case "seguida":
+        return [0, 20, 25];
+      case "quadrada":
+        return [0, 30, 35];
+      case "general":
+        return [0, 40];
+      default:
+        return [];
     }
-    if (value === "duque") {
-      return [0, 2, 4, 6, 8, 10];
-    }
-    if (value === "terno") {
-      return [0, 3, 6, 9, 12, 15];
-    }
-    if (value === "quadra") {
-      return [0, 4, 8, 12, 16, 20];
-    }
-    if (value === "quina") {
-      return [0, 5, 10, 15, 20, 25];
-    }
-    if (value === "sena") {
-      return [0, 6, 12, 18, 24, 30];
-    }
-    if (value === "full") {
-      return [0, 10, 15];
-    }
-    if (value === "seguida") {
-      return [0, 20, 25];
-    }
-    if (value === "quadrada") {
-      return [0, 30, 35];
-    }
-    if (value === "general") {
-      return [0, 40];
-    }
-    return [];
   }
 
   function handleSetPoint(value: number | null) {
     setPlayers((prevState) => {
-      const updatedPLayers = prevState.map((player, index) =>
-        index === actualPlayer ? { ...player, [point]: value } : player
-      );
+      const updatedPLayers = [...prevState];
+
+      updatedPLayers.splice(currentPlayerIndex, 1, {
+        ...updatedPLayers[currentPlayerIndex],
+        [point]: value,
+      });
 
       setCurrentGame(JSON.stringify(updatedPLayers));
       localStorage.setItem("partida-bozó", JSON.stringify(updatedPLayers));

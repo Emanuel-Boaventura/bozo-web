@@ -28,26 +28,13 @@ interface IRenderButton {
 }
 
 export default function Game() {
-  const { players } = usePlayersContext();
-  const [actualPlayer, setActualPlayer] = useState<number>(0);
+  const { currentPlayer, prevPlayer, nextPlayer } = usePlayersContext();
 
   const [open, setOpen] = useState<boolean>(false);
   const [openSettings, setOpenSettings] = useState<boolean>(false);
   const [openScoreboard, setOpenScoreboard] = useState<boolean>(false);
 
   const [point, setPoint] = useState<TPoint>("");
-
-  function nextPlayer() {
-    setActualPlayer((prevState) =>
-      prevState === players.length - 1 ? 0 : prevState + 1
-    );
-  }
-
-  function prevPlayer() {
-    setActualPlayer((prevState) =>
-      prevState === 0 ? players.length - 1 : prevState - 1
-    );
-  }
 
   function handleSquareClick(e: any) {
     setPoint(e.currentTarget.value);
@@ -81,7 +68,6 @@ export default function Game() {
       <SelectValue
         open={open}
         setOpen={setOpen}
-        actualPlayer={actualPlayer}
         onNextPlayer={nextPlayer}
         point={point}
         setOpenScoreboard={setOpenScoreboard}
@@ -95,7 +81,6 @@ export default function Game() {
       <GameHeader
         setOpenSettings={setOpenSettings}
         setOpenScoreboard={setOpenScoreboard}
-        player={players[actualPlayer]}
       />
 
       <main
@@ -106,53 +91,53 @@ export default function Game() {
           {renderButton({
             name: "Ás",
             value: "as",
-            playerPoint: players[actualPlayer].as,
+            playerPoint: currentPlayer.as,
           })}
 
           {renderButton({
             name: "Quadra",
             value: "quadra",
-            playerPoint: players[actualPlayer].quadra,
+            playerPoint: currentPlayer.quadra,
           })}
           {renderButton({
             name: "Full",
             value: "full",
-            playerPoint: players[actualPlayer].full,
+            playerPoint: currentPlayer.full,
           })}
           {renderButton({
             name: "Duque",
             value: "duque",
-            playerPoint: players[actualPlayer].duque,
+            playerPoint: currentPlayer.duque,
           })}
           {renderButton({
             name: "Quina",
             value: "quina",
-            playerPoint: players[actualPlayer].quina,
+            playerPoint: currentPlayer.quina,
           })}
           {renderButton({
             name: "Seguida",
             value: "seguida",
-            playerPoint: players[actualPlayer].seguida,
+            playerPoint: currentPlayer.seguida,
           })}
           {renderButton({
             name: "Terno",
             value: "terno",
-            playerPoint: players[actualPlayer].terno,
+            playerPoint: currentPlayer.terno,
           })}
           {renderButton({
             name: "Sena",
             value: "sena",
-            playerPoint: players[actualPlayer].sena,
+            playerPoint: currentPlayer.sena,
           })}
           {renderButton({
             name: "Quadrada",
             value: "quadrada",
-            playerPoint: players[actualPlayer].quadrada,
+            playerPoint: currentPlayer.quadrada,
           })}
           {renderButton({
             name: "General",
             value: "general",
-            playerPoint: players[actualPlayer].general,
+            playerPoint: currentPlayer.general,
           })}
         </div>
         <div className="flex w-full justify-between">

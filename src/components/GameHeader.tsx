@@ -1,26 +1,22 @@
-import { IPlayer } from "@/context/playersContext";
+import { IPlayer, usePlayersContext } from "@/context/playersContext";
 import gear from "@/public/gear.svg";
 import home from "@/public/home.svg";
 import rank from "@/public/rank.svg";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 interface IGameHeader {
   setOpenSettings: Dispatch<SetStateAction<boolean>>;
   setOpenScoreboard: Dispatch<SetStateAction<boolean>>;
-  player: IPlayer;
 }
 
 export function GameHeader({
   setOpenSettings,
   setOpenScoreboard,
-  player,
 }: IGameHeader) {
-  console.log("player:", player);
+  const { currentPlayer } = usePlayersContext();
   const router = useRouter();
-  const [color, setcolor] = useState<string>("");
-  console.log("color:", color);
 
   function playerSum(player: IPlayer) {
     return (
@@ -37,26 +33,19 @@ export function GameHeader({
     );
   }
 
-  // useEffect(() => {
-  //   setcolor(player.bgColor.replaceAll(" ", "_"));
-  // }, [player]);
-
   return (
     <header
       className="relative w-full p-4"
-      // className={`relative w-full p-4 bg-[rgb(255,_0,_0,_0.5)]`}
-      // className={`relative w-full p-4 bg-[${color}]`}
       style={{
-        background: player.bgColor,
-        // background: color,
+        background: currentPlayer.bgColor,
       }}
     >
       {/* <Image
-    src={dice}
-    alt="Trhow Dices"
-    classNam
-    e="game-buttons left-4 "
-  /> */}
+      src={dice}
+      alt="Trhow Dices"
+      classNam
+      e="game-buttons left-4 "
+      /> */}
 
       <Image
         src={rank}
@@ -80,10 +69,10 @@ export function GameHeader({
       />
 
       <p className="text-2xl font-bold text-center">BOZÓ WEB!</p>
-      <p className="text-lg text-center font-semibold">{player.name}</p>
+      <p className="text-lg text-center font-semibold">{currentPlayer.name}</p>
 
       <p className="text-8xl font-semibold text-center mt-5">
-        {playerSum(player)}
+        {playerSum(currentPlayer)}
       </p>
     </header>
   );
