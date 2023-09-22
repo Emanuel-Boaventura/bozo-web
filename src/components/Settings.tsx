@@ -15,6 +15,13 @@ export default function Settings({ open, setOpen }: ISettings) {
   const { automaticNext, setAutomaticNext } = useGameContext();
   const ref = useClickOutside(() => setOpen(false));
 
+  function handleSetAutomaticNext() {
+    setAutomaticNext((state) => {
+      localStorage.setItem("próximo-automático", JSON.stringify(!state));
+      return !state;
+    });
+  }
+
   if (open) {
     return (
       <div className="fixed z-50 h-screen w-screen bg-[rgba(0,0,0,0.7)] flex items-center justify-center">
@@ -34,7 +41,7 @@ export default function Settings({ open, setOpen }: ISettings) {
             <div className="flex items-center gap-2">
               <Checkbox.Root
                 checked={automaticNext}
-                onCheckedChange={() => setAutomaticNext((state) => !state)}
+                onCheckedChange={handleSetAutomaticNext}
                 className="bg-yellow-50 border border-yellow-700 w-5 h-5 flex items-center justify-center rounded !transform-none"
               >
                 <Checkbox.Indicator className="bg-red">

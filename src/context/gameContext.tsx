@@ -35,6 +35,12 @@ export function GameProvider({ children }: GameProps) {
       setCurrentGame(gameExist);
       setUnfinishedGame(true);
     }
+
+    const automaticNextConfig = localStorage.getItem("próximo-automático");
+
+    if (automaticNextConfig) {
+      setAutomaticNext(JSON.parse(automaticNextConfig));
+    }
   }, []);
 
   return (
