@@ -1,6 +1,7 @@
 import { IPlayer, usePlayersContext } from "@/context/playersContext";
 import gear from "@/public/gear.svg";
 import home from "@/public/home.svg";
+import dice from "@/public/dice.svg";
 import rank from "@/public/rank.svg";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -9,11 +10,13 @@ import { Dispatch, SetStateAction } from "react";
 interface IGameHeader {
   setOpenSettings: Dispatch<SetStateAction<boolean>>;
   setOpenScoreboard: Dispatch<SetStateAction<boolean>>;
+  setOpenManualDices: Dispatch<SetStateAction<boolean>>;
 }
 
 export function GameHeader({
   setOpenSettings,
   setOpenScoreboard,
+  setOpenManualDices,
 }: IGameHeader) {
   const { currentPlayer } = usePlayersContext();
   const router = useRouter();
@@ -40,31 +43,31 @@ export function GameHeader({
         background: currentPlayer.bgColor,
       }}
     >
-      {/* <Image
-      src={dice}
-      alt="Trhow Dices"
-      classNam
-      e="game-buttons left-4 "
-      /> */}
+      <Image
+        src={dice}
+        alt="Trhow Dices"
+        className="game-buttons left-12"
+        onClick={() => setOpenManualDices(true)}
+      />
 
       <Image
         src={rank}
-        alt="Scoreboard Button"
+        alt="Scoreboard"
         className="game-buttons left-4"
         onClick={() => setOpenScoreboard(true)}
       />
 
       <Image
         src={gear}
-        alt="Settings Button"
+        alt="Settings"
         className="game-buttons right-4"
         onClick={() => setOpenSettings(true)}
       />
 
       <Image
         src={home}
-        alt="Home Button"
-        className="game-buttons right-14"
+        alt="Home"
+        className="game-buttons right-12"
         onClick={() => router.push("/")}
       />
 

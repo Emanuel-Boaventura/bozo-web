@@ -1,5 +1,6 @@
 import GameAlert from "@/components/GameAlert";
 import { GameHeader } from "@/components/GameHeader";
+import ManualDices from "@/components/ManualDices";
 import Scoreboard from "@/components/Scoreboard";
 import SelectValue from "@/components/SelectValue";
 import Settings from "@/components/Settings";
@@ -33,6 +34,7 @@ export default function Game() {
   const [open, setOpen] = useState<boolean>(false);
   const [openSettings, setOpenSettings] = useState<boolean>(false);
   const [openScoreboard, setOpenScoreboard] = useState<boolean>(false);
+  const [openManualDices, setOpenManualDices] = useState<boolean>(false);
 
   const [point, setPoint] = useState<TPoint>("");
 
@@ -75,12 +77,14 @@ export default function Game() {
 
       <Settings open={openSettings} setOpen={setOpenSettings} />
       <Scoreboard open={openScoreboard} setOpen={setOpenScoreboard} />
+      <ManualDices open={openManualDices} setOpen={setOpenManualDices} />
 
       <GameAlert />
 
       <GameHeader
         setOpenSettings={setOpenSettings}
         setOpenScoreboard={setOpenScoreboard}
+        setOpenManualDices={setOpenManualDices}
       />
 
       <main
