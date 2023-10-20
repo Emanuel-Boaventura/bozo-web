@@ -3,94 +3,116 @@ import xmark from "@/public/xmark.svg";
 import Image from "next/image";
 import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import ReactDice, { ReactDiceRef } from "react-dice-complete";
+import { ReactDiceRef } from "react-dice-complete";
 import { DieContainerRef } from "react-dice-complete/dist/DiceContainer";
+import { Dice } from "./Dice";
+
+type TColumn = "cup" | "hand";
 
 interface IManualDices {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-interface Dice {
+interface IDicesData {
   id: string;
   ref: RefObject<DieContainerRef>;
-}
-
-interface Column {
-  id: string;
-  dicesIds: string[];
-}
-
-interface DicesBoard {
-  dices: { [diceId: string]: Dice };
-  columns: { [columnId: string]: Column };
-  columnOrder: string[];
+  value: number;
+  column: TColumn;
+  position: number;
 }
 
 export default function ManualDices({ open, setOpen }: IManualDices) {
-  const reactDice1 = useRef<ReactDiceRef>(null);
-  const reactDice2 = useRef<ReactDiceRef>(null);
-  const reactDice3 = useRef<ReactDiceRef>(null);
-  const reactDice4 = useRef<ReactDiceRef>(null);
-  const reactDice5 = useRef<ReactDiceRef>(null);
+  const reactDiceRefs = [
+    useRef<ReactDiceRef>(null),
+    useRef<ReactDiceRef>(null),
+    useRef<ReactDiceRef>(null),
+    useRef<ReactDiceRef>(null),
+    useRef<ReactDiceRef>(null),
+  ];
 
-  const [dicesData, setDicesData] = useState<DicesBoard>({
-    dices: {
-      "dice-1": { id: "dice-1", ref: reactDice1 },
-      "dice-2": { id: "dice-2", ref: reactDice2 },
-      "dice-3": { id: "dice-3", ref: reactDice3 },
-      "dice-4": { id: "dice-4", ref: reactDice4 },
-      "dice-5": { id: "dice-5", ref: reactDice5 },
+  const initialDicesData: IDicesData[] = [
+    {
+      id: "dice-1",
+      ref: reactDiceRefs[0],
+      value: 1,
+      column: "cup",
+      position: 0,
     },
-    columns: {
-      "column-1": {
-        id: "column-1",
-        dicesIds: ["dice-1", "dice-2", "dice-3", "dice-4"],
-      },
-      "column-2": {
-        id: "column-2",
-        dicesIds: ["dice-5"],
-      },
+    {
+      id: "dice-2",
+      ref: reactDiceRefs[1],
+      value: 1,
+      column: "cup",
+      position: 1,
     },
-    // Facilitate reordering of the columns
-    columnOrder: ["column-1", "column-2"],
-  });
-  console.log("dicesData:", dicesData);
-  const [error, setError] = useState<string>("");
-  type TTry = 0 | 1 | 2 | 3;
-  const [trys, setTrys] = useState<TTry>(0);
+    {
+      id: "dice-3",
+      ref: reactDiceRefs[2],
+      value: 1,
+      column: "cup",
+      position: 2,
+    },
+    {
+      id: "dice-4",
+      ref: reactDiceRefs[3],
+      value: 1,
+      column: "cup",
+      position: 3,
+    },
+    {
+      id: "dice-5",
+      ref: reactDiceRefs[4],
+      value: 1,
+      column: "cup",
+      position: 4,
+    },
+  ];
+
+  const [dicesData, setDicesData] = useState<IDicesData[]>(initialDicesData);
+
+  const [trys, setTrys] = useState(0);
   const ref = useClickOutside(handleExit);
 
   function handleExit() {
     if (trys !== 3 && trys !== 1) {
       alert("Are you sure you want to exit?");
       setOpen(false);
+    } else {
+      setOpen(false);
     }
-    setOpen(false);
   }
 
-  const rollDone = (totalValue: number, values: number[]) => {
-    //
-  };
-
   const rollAll = () => {
-    if (trys < 3) {
-      reactDice1.current?.rollAll();
-      reactDice2.current?.rollAll();
-      reactDice3.current?.rollAll();
-      reactDice4.current?.rollAll();
-      reactDice5.current?.rollAll();
+    if (dicesData && trys < 3) {
+      dicesData
+        .filter((dice) => dice.column === "cup")
+        .forEach((dice) => {
+          dice.ref.current?.rollAll();
+        });
 
-      setTrys((t) => (t + 1) as TTry);
+      setTrys((t) => t + 1);
     }
   };
+
+  function onRollDone(value: number, diceId: string) {
+    setDicesData((prevState) => {
+      const newDice = prevState.find((dice) => dice.id === diceId);
+
+      return [
+        ...prevState.filter((dice) => dice.id !== newDice!.id),
+        {
+          ...newDice!,
+          value: value,
+        },
+      ];
+    });
+  }
 
   const handleDragEnd = (result: any) => {
     const { destination, source, draggableId } = result;
 
-    if (!destination) {
-      return;
-    }
+    if (!destination) return;
 
     if (
       destination.droppableId === source.droppableId &&
@@ -99,58 +121,51 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
       return;
     }
 
-    const start = dicesData.columns[source.droppableId];
-    console.log("start:", start);
-    const finish = dicesData.columns[destination.droppableId];
-    console.log("finish:", finish);
+    const dice = dicesData.find((d) => d.id === draggableId);
+    if (!dice) return;
 
-    if (start.id === finish.id) {
-      const newDicesIds = Array.from(start.dicesIds);
-      newDicesIds.splice(source.index, 1);
-      newDicesIds.splice(destination.index, 0, draggableId);
+    if (destination.droppableId === source.droppableId) {
+      const replacePostionDice = dicesData.find(
+        (d) => d.position === destination.index
+      );
 
-      const newColumn = {
-        ...start,
-        dicesIds: newDicesIds,
-      };
-      console.log("newColumn:", newColumn);
+      if (!replacePostionDice) return;
 
-      const newDicesData = {
-        ...dicesData,
-        columns: {
-          ...dicesData.columns,
-          [newColumn.id]: newColumn,
-        },
+      const newDice = {
+        ...dice,
+        position: destination.index,
       };
 
-      setDicesData(newDicesData);
+      const newReplacePostionDice = {
+        ...replacePostionDice,
+        position: source.index,
+      };
+
+      const newArray = [
+        ...dicesData.filter(
+          (d) => d.id !== newDice.id && d.id !== newReplacePostionDice.id
+        ),
+        newDice,
+        newReplacePostionDice,
+      ];
+
+      setDicesData(newArray);
+
       return;
     }
 
-    // Moving from one list to another
-    const startDicesIds = Array.from(start.dicesIds);
-    startDicesIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      dicesIds: startDicesIds,
+    const newDice = {
+      ...dice,
+      position: destination.index,
+      column: destination.droppableId,
     };
 
-    const finishDicesIds = Array.from(finish.dicesIds);
-    finishDicesIds.splice(destination.index, 0, draggableId);
-    const newFinish = {
-      ...finish,
-      dicesIds: finishDicesIds,
-    };
+    const newArray = [
+      ...dicesData.filter((d) => d.id !== draggableId),
+      newDice,
+    ];
 
-    const newDicesData = {
-      ...dicesData,
-      columns: {
-        ...dicesData.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },
-    };
-    setDicesData(newDicesData);
+    setDicesData(newArray);
   };
 
   if (open) {
@@ -168,6 +183,7 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
               className="absolute w-5 h-5 top-2 right-2 active:translate-y-[1px] transition-transform  cursor-pointer"
             />
             <p className="text-2xl font-bold text-center mb-2">Dados</p>
+
             <div>
               <div className="flex justify-between">
                 <p className="font-semibold">Copo</p>
@@ -181,66 +197,21 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
                 </button>
               </div>
 
-              <Droppable droppableId="column-1">
+              <Droppable droppableId="cup" direction="horizontal">
                 {(provided) => (
                   <div
-                    className="border border-orange-900 rounded-lg bg-yellow-700 text-black flex items-center justify-around px-2 h-20"
+                    className="border border-orange-900 rounded-lg bg-yellow-700 text-black flex items-center gap-4 px-2 h-20"
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    {dicesData.columns["column-1"].dicesIds.map(
-                      (diceId, index) => {
-                        const dice = dicesData.dices[diceId];
-
-                        return (
-                          <Draggable
-                            key={dice.id}
-                            draggableId={dice.id}
-                            index={index}
-                          >
-                            {(providedTwo) => (
-                              <div
-                                ref={providedTwo.innerRef}
-                                {...providedTwo.draggableProps}
-                                {...providedTwo.dragHandleProps}
-                              >
-                                <ReactDice
-                                  key={dice.id}
-                                  numDice={1}
-                                  disableIndividual
-                                  rollDone={rollDone}
-                                  dieSize={40}
-                                  faceColor="#fff7ed"
-                                  dotColor="#431407"
-                                  margin={0}
-                                  rollTime={1}
-                                  ref={dice.ref}
-                                />
-                              </div>
-                            )}
-                          </Draggable>
-                        );
-                      }
-                    )}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-
-              <p className="font-semibold mt-4">Mão</p>
-              <Droppable droppableId="column-2">
-                {(provided) => (
-                  <div
-                    className="border border-orange-900 rounded-lg bg-orange-300 flex justify-around px-2 h-20"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    {dicesData.columns["column-2"].dicesIds.map(
-                      (diceId, index) => (
+                    {dicesData
+                      .filter((dice) => dice.column === "cup")
+                      .sort((a, b) => a.position - b.position)
+                      .map((dice) => (
                         <Draggable
-                          key={dicesData.dices[diceId].id}
-                          draggableId={dicesData.dices[diceId].id.toString()}
-                          index={index}
+                          key={dice.id}
+                          draggableId={dice.id}
+                          index={dice.position}
                         >
                           {(providedTwo) => (
                             <div
@@ -248,23 +219,56 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
                               {...providedTwo.draggableProps}
                               {...providedTwo.dragHandleProps}
                             >
-                              <ReactDice
-                                key={dicesData.dices[diceId].id}
-                                numDice={1}
-                                disableIndividual
-                                rollDone={rollDone}
-                                dieSize={40}
-                                faceColor="#fff7ed"
-                                dotColor="#431407"
-                                margin={0}
-                                rollTime={1}
-                                ref={dicesData.dices[diceId].ref}
+                              <Dice
+                                key={dice.id}
+                                diceId={dice.id}
+                                value={dice.value}
+                                onRollDone={onRollDone}
+                                forwardedRef={dice.ref}
                               />
                             </div>
                           )}
                         </Draggable>
-                      )
-                    )}
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+
+              <p className="font-semibold mt-4">Mão</p>
+              <Droppable droppableId="hand" direction="horizontal">
+                {(provided) => (
+                  <div
+                    className="border border-orange-900 rounded-lg bg-orange-300 flex items-center gap-4 px-2 h-20"
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {dicesData
+                      .filter((dice) => dice.column === "hand")
+                      .sort((a, b) => a.position - b.position)
+                      .map((dice) => (
+                        <Draggable
+                          key={dice.id}
+                          draggableId={dice.id}
+                          index={dice.position}
+                        >
+                          {(providedTwo) => (
+                            <div
+                              ref={providedTwo.innerRef}
+                              {...providedTwo.draggableProps}
+                              {...providedTwo.dragHandleProps}
+                            >
+                              <Dice
+                                key={dice.id}
+                                diceId={dice.id}
+                                value={dice.value}
+                                onRollDone={onRollDone}
+                                forwardedRef={dice.ref}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
                     {provided.placeholder}
                   </div>
                 )}
