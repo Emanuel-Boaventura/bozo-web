@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-yellow-800;
+}
+
 * {
   scroll-behavior: smooth;
   margin: 0;
@@ -31,7 +35,7 @@
   }
 
   .game-buttons {
-    @apply h-6 w-6 top-4 active:translate-y-[1px] absolute;
+    @apply h-6 w-6 top-4 active:translate-y-[1px] absolute md:top-10;
   }
 
   .square {

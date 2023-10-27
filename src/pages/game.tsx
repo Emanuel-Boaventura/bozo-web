@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import GameAlert from "@/components/GameAlert";
 import { GameHeader } from "@/components/GameHeader";
 import ManualDices from "@/components/ManualDices";
@@ -7,7 +8,8 @@ import Settings from "@/components/Settings";
 import { usePlayersContext } from "@/context/playersContext";
 import cut from "@/public/cut.png";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export type TPoint =
   | ""
@@ -30,6 +32,7 @@ interface IRenderButton {
 
 export default function Game() {
   const { currentPlayer, prevPlayer, nextPlayer } = usePlayersContext();
+  const router = useRouter();
 
   const [open, setOpen] = useState<boolean>(false);
   const [openSettings, setOpenSettings] = useState<boolean>(false);
@@ -65,6 +68,41 @@ export default function Game() {
     </button>
   );
 
+  useEffect(() => {
+    if (!currentPlayer) router.push("/");
+  }, []);
+
+  if (!currentPlayer) return null;
+
+  const squaresData = [
+    { name: "Ás", value: "as", playerPoint: currentPlayer.as },
+    {
+      name: "Quadra",
+      value: "quadra",
+      playerPoint: currentPlayer.quadra,
+    },
+    { name: "Full", value: "full", playerPoint: currentPlayer.full },
+    { name: "Duque", value: "duque", playerPoint: currentPlayer.duque },
+    { name: "Quina", value: "quina", playerPoint: currentPlayer.quina },
+    {
+      name: "Seguida",
+      value: "seguida",
+      playerPoint: currentPlayer.seguida,
+    },
+    { name: "Terno", value: "terno", playerPoint: currentPlayer.terno },
+    { name: "Sena", value: "sena", playerPoint: currentPlayer.sena },
+    {
+      name: "Quadrada",
+      value: "quadrada",
+      playerPoint: currentPlayer.quadrada,
+    },
+    {
+      name: "General",
+      value: "general",
+      playerPoint: currentPlayer.general,
+    },
+  ];
+
   return (
     <>
       <SelectValue
@@ -88,63 +126,14 @@ export default function Game() {
       />
 
       <main
-        className="flex flex-col p-4 pb-10 gap-6 bg-yellow-800  text-orange-50
+        className="flex flex-col p-4 pb-10 gap-6  text-orange-50 max-w-2xl mx-auto
         min-h-[calc(100vh-208px)]"
       >
         <div className="grid grid-cols-3 leading-none bg-orange-50 gap-[1px] p-[1px]">
-          {renderButton({
-            name: "Ás",
-            value: "as",
-            playerPoint: currentPlayer.as,
-          })}
-
-          {renderButton({
-            name: "Quadra",
-            value: "quadra",
-            playerPoint: currentPlayer.quadra,
-          })}
-          {renderButton({
-            name: "Full",
-            value: "full",
-            playerPoint: currentPlayer.full,
-          })}
-          {renderButton({
-            name: "Duque",
-            value: "duque",
-            playerPoint: currentPlayer.duque,
-          })}
-          {renderButton({
-            name: "Quina",
-            value: "quina",
-            playerPoint: currentPlayer.quina,
-          })}
-          {renderButton({
-            name: "Seguida",
-            value: "seguida",
-            playerPoint: currentPlayer.seguida,
-          })}
-          {renderButton({
-            name: "Terno",
-            value: "terno",
-            playerPoint: currentPlayer.terno,
-          })}
-          {renderButton({
-            name: "Sena",
-            value: "sena",
-            playerPoint: currentPlayer.sena,
-          })}
-          {renderButton({
-            name: "Quadrada",
-            value: "quadrada",
-            playerPoint: currentPlayer.quadrada,
-          })}
-          {renderButton({
-            name: "General",
-            value: "general",
-            playerPoint: currentPlayer.general,
-          })}
+          {squaresData.map((buttonProps) => renderButton(buttonProps))}
         </div>
-        <div className="flex w-full justify-between">
+
+        <div className="flex w-full justify-between ">
           <button
             type="button"
             className="p-4 w-32 bg-orange-200 text-orange-950 rounded-lg font-bold tracking-wide shadow"

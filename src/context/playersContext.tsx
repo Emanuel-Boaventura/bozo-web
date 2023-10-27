@@ -1,4 +1,3 @@
-import { initalPlayers } from "@/utils/data";
 import {
   createContext,
   useContext,
@@ -40,7 +39,7 @@ interface IPlayersContext {
 const PlayersContext = createContext({} as IPlayersContext);
 
 export function PlayersProvider({ children }: PlayersProps) {
-  const [players, setPlayers] = useState<IPlayer[]>(initalPlayers);
+  const [players, setPlayers] = useState<IPlayer[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const currentPlayer = players[currentPlayerIndex];
 

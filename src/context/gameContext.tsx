@@ -31,6 +31,7 @@ export function GameProvider({ children }: GameProps) {
 
   useEffect(() => {
     const gameExist = localStorage.getItem("partida-bozó");
+
     if (gameExist) {
       setCurrentGame(gameExist);
       setUnfinishedGame(true);

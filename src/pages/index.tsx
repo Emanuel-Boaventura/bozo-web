@@ -3,10 +3,8 @@ import GameAlert from "@/components/GameAlert";
 import { useGameContext } from "@/context/gameContext";
 import { usePlayersContext } from "@/context/playersContext";
 import xmark from "@/public/xmark.svg";
-import { initalPlayers } from "@/utils/data";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
@@ -14,7 +12,6 @@ export default function Home() {
   const { players, setPlayers } = usePlayersContext();
   const { currentGame, setCurrentGame } = useGameContext();
   const [open, setOpen] = useState<boolean>(false);
-  const router = useRouter();
 
   const handleDragEnd = (result: any) => {
     const { destination, source } = result;
@@ -43,7 +40,7 @@ export default function Home() {
   }
 
   function handleNewGame() {
-    setPlayers(initalPlayers);
+    setPlayers([]);
     localStorage.removeItem("partida-bozó");
     setCurrentGame(null);
   }
@@ -52,7 +49,7 @@ export default function Home() {
     <>
       <AddPlayer open={open} setOpen={setOpen} />
       <GameAlert />
-      <main className="flex flex-col items-center p-10 bg-yellow-800 text-orange-50 min-h-screen">
+      <main className="flex flex-col items-center p-10 bg-yellow-800 text-orange-50 min-h-screen max-w-2xl mx-auto md:py-16">
         <h1 className="text-2xl font-bold text-center">
           Bem vindo ao Bozó WEB!
         </h1>
@@ -86,7 +83,7 @@ export default function Home() {
                           src={xmark}
                           alt="Botão de fechar"
                           onClick={() => remove(player.name)}
-                          className="absolute w-5 h-5 top-2 right-2 active:translate-y-[1px] transition-transform"
+                          className="absolute w-5 h-5 top-2 right-2 active:translate-y-[1px] transition-transform cursor-pointer"
                         />
 
                         <p className="mt-2 mb-1 text-yellow-950 font-bold">

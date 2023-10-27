@@ -65,6 +65,9 @@ export default function AddPlayer({ open, setOpen }: IAddPlayer) {
             placeholder="Insira o nome"
             className="border border-orange-900 text-orange-950 w-full mt-5 p-2 rounded-lg outline-none bg-orange-50 text-center font-semibold  placeholder:opacity-50"
             onChange={(e) => setNewPlayer(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleAddPlayer();
+            }}
           />{" "}
           {error && (
             <p className="text-[12px] font-medium leading-none text-center text-red-500 mt-1">
