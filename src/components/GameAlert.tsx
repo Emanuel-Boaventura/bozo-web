@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useGameContext } from "@/context/gameContext";
 import { usePlayersContext } from "@/context/playersContext";
-import { initalPlayers } from "@/utils/data";
 import { useRouter } from "next/router";
 
 export default function GameAlert() {
@@ -18,7 +17,7 @@ export default function GameAlert() {
   }
 
   function handleNewGame() {
-    setPlayers(initalPlayers);
+    setPlayers([]);
     setCurrentGame(null);
     localStorage.removeItem("partida-bozó");
 
