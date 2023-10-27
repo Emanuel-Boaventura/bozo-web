@@ -2,7 +2,12 @@ import { useClickOutside } from "@/hooks/onClickOutside";
 import xmark from "@/public/xmark.svg";
 import Image from "next/image";
 import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  OnDragEndResponder,
+} from "react-beautiful-dnd";
 import { ReactDiceRef } from "react-dice-complete";
 import { DieContainerRef } from "react-dice-complete/dist/DiceContainer";
 import { Dice } from "./Dice";
@@ -95,6 +100,11 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
     }
   };
 
+  function handleReset() {
+    setTrys(0);
+    setDicesData(initialDicesData);
+  }
+
   function onRollDone(value: number, diceId: string) {
     setDicesData((prevState) => {
       const newDice = prevState.find((dice) => dice.id === diceId);
@@ -109,7 +119,7 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
     });
   }
 
-  const handleDragEnd = (result: any) => {
+  const handleDragEnd: OnDragEndResponder = (result) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) return;
@@ -122,50 +132,41 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
     }
 
     const dice = dicesData.find((d) => d.id === draggableId);
+
     if (!dice) return;
 
-    if (destination.droppableId === source.droppableId) {
-      const replacePostionDice = dicesData.find(
-        (d) => d.position === destination.index
-      );
-
-      if (!replacePostionDice) return;
-
-      const newDice = {
+    const arrayRearranged = [
+      ...dicesData
+        .filter((d) => d.id !== dice.id)
+        .map((d) => {
+          if (d.position > source.index && d.column === source.droppableId) {
+            return {
+              ...d,
+              position: d.position - 1,
+            };
+          }
+          return d;
+        })
+        .map((d) => {
+          if (
+            d.position >= destination.index &&
+            d.column === destination.droppableId
+          ) {
+            return {
+              ...d,
+              position: d.position + 1,
+            };
+          }
+          return d;
+        }),
+      {
         ...dice,
         position: destination.index,
-      };
-
-      const newReplacePostionDice = {
-        ...replacePostionDice,
-        position: source.index,
-      };
-
-      const newArray = [
-        ...dicesData.filter(
-          (d) => d.id !== newDice.id && d.id !== newReplacePostionDice.id
-        ),
-        newDice,
-        newReplacePostionDice,
-      ];
-
-      setDicesData(newArray);
-
-      return;
-    }
-
-    const newDice = {
-      ...dice,
-      position: destination.index,
-      column: destination.droppableId,
-    };
-
-    const newArray = [
-      ...dicesData.filter((d) => d.id !== draggableId),
-      newDice,
+        column: destination.droppableId,
+      } as IDicesData,
     ];
 
-    setDicesData(newArray);
+    setDicesData(arrayRearranged);
   };
 
   if (open) {
@@ -286,7 +287,7 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
               <button
                 type="button"
                 className="font-semibold cursor-pointer"
-                onClick={() => setTrys(0)}
+                onClick={handleReset}
               >
                 Resetar
               </button>
