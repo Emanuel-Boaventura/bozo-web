@@ -37,46 +37,49 @@ export function GameHeader({
   }
 
   return (
-    <header
-      className="relative w-full p-4"
+    <div
       style={{
         background: currentPlayer.bgColor,
       }}
     >
-      <Image
-        src={dice}
-        alt="Trhow Dices"
-        className="game-buttons left-12"
-        onClick={() => setOpenManualDices(true)}
-      />
+      <header className="relative max-w-2xl mx-auto p-4 md:py-10">
+        <Image
+          src={dice}
+          alt="Trhow Dices"
+          className="game-buttons left-12 "
+          onClick={() => setOpenManualDices(true)}
+        />
 
-      <Image
-        src={rank}
-        alt="Scoreboard"
-        className="game-buttons left-4"
-        onClick={() => setOpenScoreboard(true)}
-      />
+        <Image
+          src={rank}
+          alt="Scoreboard"
+          className="game-buttons left-4"
+          onClick={() => setOpenScoreboard(true)}
+        />
 
-      <Image
-        src={gear}
-        alt="Settings"
-        className="game-buttons right-4"
-        onClick={() => setOpenSettings(true)}
-      />
+        <Image
+          src={gear}
+          alt="Settings"
+          className="game-buttons right-4"
+          onClick={() => setOpenSettings(true)}
+        />
 
-      <Image
-        src={home}
-        alt="Home"
-        className="game-buttons right-12"
-        onClick={() => router.push("/")}
-      />
+        <Image
+          src={home}
+          alt="Home"
+          className="game-buttons right-12"
+          onClick={() => router.push("/")}
+        />
 
-      <p className="text-2xl font-bold text-center">BOZÓ WEB!</p>
-      <p className="text-lg text-center font-semibold">{currentPlayer.name}</p>
+        <p className="text-2xl font-bold text-center">BOZÓ WEB!</p>
+        <p className="text-lg text-center font-semibold">
+          {currentPlayer.name}
+        </p>
 
-      <p className="text-8xl font-semibold text-center mt-5">
-        {playerSum(currentPlayer)}
-      </p>
-    </header>
+        <p className="text-8xl font-semibold text-center mt-5">
+          {playerSum(currentPlayer)}
+        </p>
+      </header>
+    </div>
   );
 }
