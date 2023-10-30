@@ -52,6 +52,7 @@ export default function Game() {
       className={`square ${value === "general" ? "col-span-full" : ""}`}
       value={value}
       onClick={handleSquareClick}
+      key={name}
     >
       <p className="square-point">
         {playerPoint === 0 ? (
@@ -127,7 +128,7 @@ export default function Game() {
 
       <main
         className="flex flex-col p-4 pb-10 gap-6  text-orange-50 max-w-2xl mx-auto
-        min-h-[calc(100vh-208px)]"
+        min-h-[calc(100vh-208px)] md:min-h-[calc(100vh-256px)]"
       >
         <div className="grid grid-cols-3 leading-none bg-orange-50 gap-[1px] p-[1px]">
           {squaresData.map((buttonProps) => renderButton(buttonProps))}

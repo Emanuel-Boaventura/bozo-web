@@ -35,7 +35,7 @@ body {
   }
 
   .game-buttons {
-    @apply h-6 w-6 top-4 active:translate-y-[1px] absolute md:top-10;
+    @apply h-6 w-6 top-4 active:translate-y-[1px] absolute md:top-10 cursor-pointer;
   }
 
   .square {
@@ -92,4 +92,12 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgb(66, 32, 6);
+}
+
+/* custom class */
+.first-div-dice {
+  > div {
+    display: flex;
+    justify-content: center;
+  }
 }

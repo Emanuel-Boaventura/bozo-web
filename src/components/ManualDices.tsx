@@ -11,6 +11,7 @@ import {
 import { ReactDiceRef } from "react-dice-complete";
 import { DieContainerRef } from "react-dice-complete/dist/DiceContainer";
 import { Dice } from "./Dice";
+import { getOpositeNumber } from "@/utils/getOpositeNumber";
 
 type TColumn = "cup" | "hand";
 
@@ -35,6 +36,8 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
     useRef<ReactDiceRef>(null),
     useRef<ReactDiceRef>(null),
   ];
+  const [below, setBelow] = useState(false);
+  const [nextBelow, setNextBelow] = useState(false);
 
   const initialDicesData: IDicesData[] = [
     {
@@ -97,11 +100,20 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
         });
 
       setTrys((t) => t + 1);
+
+      if (nextBelow) {
+        setBelow(true);
+        setNextBelow(false);
+      } else {
+        setBelow(false);
+      }
     }
   };
 
   function handleReset() {
     setTrys(0);
+    setBelow(false);
+    setNextBelow(false);
     setDicesData(initialDicesData);
   }
 
@@ -163,6 +175,7 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
         ...dice,
         position: destination.index,
         column: destination.droppableId,
+        ...(below && { value: getOpositeNumber(dice.value) }),
       } as IDicesData,
     ];
 
@@ -226,6 +239,8 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
                                 value={dice.value}
                                 onRollDone={onRollDone}
                                 forwardedRef={dice.ref}
+                                below={below}
+                                onCup
                               />
                             </div>
                           )}
@@ -235,6 +250,27 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
                   </div>
                 )}
               </Droppable>
+              <div className="flex items-center mt-4 ">
+                <input
+                  id="below"
+                  type="checkbox"
+                  checked={nextBelow}
+                  onChange={() => setNextBelow((s) => !s)}
+                  className="w-4 h-4 rounded accent-orange-900 cursor-pointer"
+                />
+                <label
+                  htmlFor="below"
+                  className="ml-2 text-sm font-semibold cursor-pointer"
+                >
+                  Em baixo
+                </label>
+              </div>
+
+              <p className="text-xs">
+                Quando marcado, na próxima jogada, ao arrastar os dados para a
+                mão serão salvos os valores opostos{" "}
+                <span className="text-red-500">(em vermelho)</span>.
+              </p>
 
               <p className="font-semibold mt-4">Mão</p>
               <Droppable droppableId="hand" direction="horizontal">
@@ -265,6 +301,7 @@ export default function ManualDices({ open, setOpen }: IManualDices) {
                                 value={dice.value}
                                 onRollDone={onRollDone}
                                 forwardedRef={dice.ref}
+                                below={below}
                               />
                             </div>
                           )}

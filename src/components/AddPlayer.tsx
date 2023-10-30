@@ -39,7 +39,7 @@ export default function AddPlayer({ open, setOpen }: IAddPlayer) {
         setOpen(false);
       }
     } catch (error) {
-      console.log("erro:", error);
+      // console.log("erro:", error);
       setError("Erro ao adicionar jogador, tente novamente.");
     }
   }
